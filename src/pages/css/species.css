@@ -1,0 +1,20 @@
+.speciesList.firstvalue {
+    font-weight: bold;
+}
+
+.taxonName {
+    font-size: large;
+    font-weight: bold;
+    background-color: cadetblue;
+    padding: 0.5em;
+}
+
+.latinName {
+    font-style: italic;
+    background-color: aquamarine;
+}
+
+.picture {
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+}

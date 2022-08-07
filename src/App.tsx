@@ -1,19 +1,22 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import About from './components/about';
-import Contact from './components/contact';
-import Home from './components/main';
-import Sightings from './components/sightings';
-import Species from './components/species';
-import Use from './components/use';
+import About from './pages/about';
+import Contact from './pages/contact';
+import Home from './pages/main';
+import Sightings from './pages/sightings';
+import Species from './pages/species';
+import Use from './pages/use';
 import ResponsiveAppBar from './components/navbar';
+import { ThemeProvider, createTheme } from '@mui/material';
+import {theme} from "./components/theme";
+
 
 function App() {
 
   return (
-
-    <div className="wrapper">
+    <ThemeProvider theme={theme}>
+   <div className="wrapper"> 
       <ResponsiveAppBar />
       <Routes>
         <Route index element={<Home />} />
@@ -23,11 +26,9 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      />
+      <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'/>
     </div>
+    </ThemeProvider>
   );
 }
 

@@ -12,12 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import About from './about';
-import Contact from './contact';
-import Home from './main';
-import Sightings from './sightings';
-import Species from './species';
-import Use from './use';
 import { Link } from 'react-router-dom';
 
 const pages = ['Sightings', 'Species', 'How To Use', 'About', 'Contact'];
@@ -97,7 +91,7 @@ const ResponsiveAppBar = () => {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link to={`/${page}`}>{page}</Link>
+                    <Link style={{textDecoration: "none", color: "white"}}to={`/${page}`}>{page}</Link>
                   </Typography>
                 </MenuItem>
               ))}
@@ -119,7 +113,7 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            CuilcaghSPOT
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -128,7 +122,7 @@ const ResponsiveAppBar = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-               <Link to={`/${page}`}>{page}</Link>
+               <Link style={{textDecoration: "none", color: "white"}}to={`/${page}`}>{page}</Link>
               </Button>
             ))}
           </Box>
