@@ -2,19 +2,65 @@
     font-weight: bold;
 }
 
+.groupfilter {
+    margin-left: auto; 
+    margin-right: 0;
+}
+
+.title {
+    padding: 1em;
+    background-color: white;
+}
+
+.list {
+    background-color: white;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px;
+    padding: 0.5em;
+}
+
 .taxonName {
     font-size: large;
     font-weight: bold;
-    background-color: cadetblue;
+    border-radius: 25px;
+    border: 2px solid #F97491;
+    background-color: white;
     padding: 0.5em;
 }
 
 .latinName {
     font-style: italic;
-    background-color: aquamarine;
+    background-color: #FFF7E3;
+}
+
+.detail {
+    padding: 1em;
+}
+
+.picture {
+   width: 100px;
+    height: 100px;
+
+}
+
+.largepicture {
+        width: 400px;
+        height: 300px;
+        width: 100%;
+        height: auto;
+      }
+
+.editprompt {
+    position: fixed; 
+    bottom: 0px;
 }
 
 .picture {
     padding-top: 0.5em;
     padding-bottom: 1em;
+}
+
+.species {
+    padding: 1em;
 }

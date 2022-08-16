@@ -1,48 +1,98 @@
 import axios from "axios";
-import React from "react";
-import Container from "@mui/material/Container";
 import { Organism } from "../types/species.types";
 import '../pages/css/species.css';
+import { Input, Table } from "@mui/material";
+import { Link } from "react-router-dom";
+import * as React from 'react';
+import Paper from '@mui/material/Paper';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { useEffect, useState } from "react";
+import { GroupFilter } from "./taxonGroupFilter";
 
-
-export default class OrganismList extends React.Component {
-  organismsArray: Organism[] = [];
-  state = {
-    organisms: this.organismsArray
-  }
-
-  componentDidMount() {
-    axios.get(`http://localhost:5001/api/organisms/getAllOrganisms`)
-      .then(res => {
-        const allOrganisms = res.data;
-        this.setState({ organisms: allOrganisms });
-        console.log(allOrganisms);
-      })
-  }
-
-  render() {
-    return (
-      //<ul>
-      <div>
-        {
-          this.state.organisms
-            // .map(organism =>
-            //   <li  key={organism.taxonName}>
-            //     {organism.taxonName} - {organism.latinName}
-            //     <img src={organism.pictureURL}></img>
-            //   </li>
-            //  )
-            .map(organism =>
-              <div>
-                <div className='taxonName'>{organism.taxonName}</div>
-                <div className='latinName'>{organism.latinName}</div>
-                <div className='picture'><img src={organism.pictureURL}/></div>
-              </div>
-            )
-            
-        }
-      </div>
-      //</ul>
-    )
-  }
+interface Column {
+  id: 'Common name' | 'Latin name'; 
+  label: string;
+  minWidth?: number;
+  align?: 'right';
+  format?: (value: number) => string;
 }
+
+const columns: readonly Column[] = [
+  { id: 'Common name', label: 'Common Name', minWidth: 170 },
+  { id: 'Latin name', label: 'Latin Name', minWidth: 100 },
+];
+
+const rows : string[] = [
+];
+
+export const SpeciesList = () => {
+
+  const [organisms, setOrganism] = useState<Organism[]>([]);
+  const [name, setName] = useState("");
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+      const { data: response } = await axios.get(`http://localhost:5001/api/organisms/getAllOrganisms`);
+      setOrganism(response);
+    }
+    fetchData();
+  }, []);
+//Where to put a taxon group filter?
+  return (
+    <div>
+    <Paper sx={{ width: '100%'}}>
+      <Table className='list'>
+        <GroupFilter />
+        <Input type="text" className="search" placeholder="Search species..." onChange={(e) => { setName(e.target.value) }} />
+          {(
+            organisms.filter((value) => {
+            if (name === "") {
+              return value as Organism;
+            } else if (value.taxonName.toLowerCase().includes(name.toLowerCase()) || value.latinName.toLowerCase().includes(name.toLowerCase())) 
+            {
+              return value as Organism;
+            }}).map((organism, index) =>
+              <div key={`species-${index}`}>
+                <div className='taxonName'>
+                  <Link className='species-button' to={`/species/${organism.organismId}`}>
+                    {organism.taxonName}
+                  </Link>
+                  <div className='latinName'>{organism.latinName}</div>
+                  </div>
+              </div>
+            ))
+        }
+         </Table>
+         <TablePagination
+        rowsPerPageOptions={[10, 25]}
+        component="div"
+        count={organisms.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      </Paper>
+    </div>
+  )
+}
+
+

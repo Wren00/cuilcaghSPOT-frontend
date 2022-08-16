@@ -2,3 +2,50 @@
     text-align: center;
     width: 100%;
 }
+
+.sightingtitle {
+    text-align: center;
+}
+
+.sightingsmap   {
+    padding-top: 2em;
+    padding-bottom: 4em;
+}
+
+.card-bg {
+    background-color: #FFF7E3;
+    border-radius: 25px;
+ 
+}
+
+.list-of-cards {
+    width: 100%;
+    padding: 2em;
+    display: flex;
+    justify-content: center;
+}
+
+.header {
+    padding: 2em;
+    text-align: center;
+}
+
+.MuiStack-root {
+    display: flex;
+    justify-content: center;
+}
+
+.MuiCardMedia-media {
+    max-height: 100px;
+}
+
+.sightingpicture {
+max-width: 100%; height: auto;
+}
+
+img  {
+    width: 400px;
+    height: 300px;
+    width: 100%;
+    height: auto;
+  }

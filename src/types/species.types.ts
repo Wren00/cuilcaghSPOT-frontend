@@ -4,7 +4,7 @@ type Organism = {
     taxonName: string;
     latinName: string;
     taxonGroupId: number;
-    pictureURL: string;
+    pictureUrl: string;
     description: string;
     isProtected: boolean;
     children?: React.ReactNode

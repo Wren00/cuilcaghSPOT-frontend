@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const pages = ['Sightings', 'Species', 'How To Use', 'About', 'Contact'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -36,6 +37,17 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
+  const [user, setUser] = useState<string>('');
+
+
+useEffect(() => {
+  const loggedInUser = localStorage.getItem("user");
+  if (loggedInUser) {
+    const foundUser = JSON.parse(loggedInUser);
+    setUser(foundUser);
+  }
+}, []);
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -53,6 +65,7 @@ const ResponsiveAppBar = () => {
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
+              position: 'relative',
               textDecoration: 'none',
             }}
           >

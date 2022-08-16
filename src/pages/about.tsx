@@ -11,6 +11,11 @@ const About = () => (
     inhabitants and to preserve it for future wildlife, flora and human visitors. 
     </p>
     <br />
+    <p>
+    Many of the creatures that can be found in Cuilcagh like the Irish Hare and Hen Harrier are on Northern Ireland's Priority Species list. This makes it an
+    even more important place to look after so we can help the decreasing populations of these creatures!
+    </p>
+    <br />
     <p>This app wants to help raise awareness of the fantastic upland bog at Cuilcagh. It's a home to many creatures,
       and Spotters like you can help us understand more about the wildlife that lives here. If we're lucky,
       you'll be able to help us understand more about Cuilcagh's animals and plants, and how they change over time!
