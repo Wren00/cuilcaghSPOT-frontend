@@ -1,15 +1,18 @@
 import axios from "axios";
-import { Organism } from "../types/species.types";
 import '../pages/css/species.css';
 import React from "react";
 import { useForm } from "react-hook-form";
+import {CreateUnverifiedSighting} from "../types/sightings.types";
 
 
 function PostSighting() {
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm <CreateUnverifiedSighting>()
+ ;
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: CreateUnverifiedSighting) => {
+      console.log(typeof data);
+      console.log(data);
     axios
       .post(
         'http://localhost:5001/api/unverifiedsightings/createUnverifiedSighting',
@@ -21,22 +24,46 @@ function PostSighting() {
   };
 
   return (
-
+    <div>
     <form onSubmit={handleSubmit(onSubmit)}>
-        Organism Id
-      <input {...register("organismId")} type="number" />
-      User Id
-      <input {...register("userId")} type="number" />
-      <input {...register("pictureURL")} placeholder="A valid picture url " type="text" />
-      Date
-      <input  {...register("date")} type="date" />
-      Lat
-      <input  {...register("lat")} type="number" />
-      Long
-      <input  {...register("long")} type="number" />
+        <div>
+        <label htmlFor="organismId">Organism Id</label>
+            <input type="number"
+                {...register("organismId", {
+                    valueAsNumber: true,
+                })}
+            />
+        </div>
+        <div>
+            <label htmlFor="userId"> User Id</label>
+            <input type="number"
+                   {...register("userId", {
+                       valueAsNumber: true,
+                   })}
+            />
+        </div>
+        <div>
+            <label htmlFor="pictureURL"> Picture URL</label>
+            <input {...register("pictureURL")} type="text" />
+        </div>
+        <div>
+            <label htmlFor="date"> Date</label>
+            <input {...register("date")} type="date" />
+        </div>
+        <div>
+            <label htmlFor="lat"> Lat</label>
+            <input  {...register("lat")} type="number" step={0.0001} />
+        </div>
+        <div>
+            <label htmlFor="long"> Long</label>
+            <input {...register("long")} type="number" step={0.0001} />
+        </div>
       <button type="submit">Submit Sighting</button>
     </form>
+      </div>
   )
 }
+
+
 
 export { PostSighting };
