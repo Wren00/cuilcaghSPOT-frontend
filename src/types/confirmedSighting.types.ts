@@ -2,7 +2,7 @@ type ConfirmedSighting = {
     sightingId: number;
     organismId: number;
     userId: number;
-    pictureURL: string;
+    pictureUrl: string;
     date: string;
     lat: number;
     long: number;

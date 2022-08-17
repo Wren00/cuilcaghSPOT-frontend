@@ -1,6 +1,5 @@
-import { ReactMap } from '../components/map';
 import { PostSpecies }  from '../components/postSpecies';
-import { SightingList } from '../components/sightingList';
+
 
 
 const SpeciesDataForm = () => (

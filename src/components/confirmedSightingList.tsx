@@ -49,7 +49,7 @@ export const ConfirmedSightingList = () => {
                       className='cardmedia'
                       component="img"
                       height="0"
-                      image={sighting.pictureURL}
+                      image={sighting.pictureUrl}
                       alt="sighting"
                     />
                     <CardContent>
