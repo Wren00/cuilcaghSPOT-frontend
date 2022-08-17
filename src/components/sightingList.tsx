@@ -33,9 +33,9 @@ export const SightingList = () => {
       <h2 className='header'>Unconfirmed sightings that need your vote!</h2>
       <div className= 'list-of-cards'>
       <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
-        spacing={2}>
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={{ xs: 1, sm: 2, md: 4 }}
+        divider={<Divider orientation="vertical" flexItem />}>
         {
         
         (
@@ -49,7 +49,7 @@ export const SightingList = () => {
                       className='cardmedia'
                       component="img"
                       height="0"
-                      image={sighting.pictureURL}
+                      image={sighting.pictureUrl}
                       alt="sighting"
                     />
                     <CardContent>

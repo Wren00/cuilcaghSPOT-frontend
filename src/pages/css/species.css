@@ -45,13 +45,16 @@
 }
 
 .largepicture {
-        width: 400px;
-        height: 300px;
-        width: 100%;
-        height: auto;
-      }
+    width: 300px;
+    height: auto;
+}
+
+.description {
+    padding: 1em;
+}
 
 .editprompt {
+    padding-top: 1em;
     position: fixed; 
     bottom: 0px;
 }

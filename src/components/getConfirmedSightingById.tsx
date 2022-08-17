@@ -22,7 +22,7 @@ const SightingById = () => {
   return (
     sighting && (<div>
       <div key={`species-${sighting.sightingId}`}>
-      <div className='largepicture'> <img src= {sighting.pictureURL} alt=""/></div>
+      <div className='largepicture'> <img src= {sighting.pictureUrl} alt=""/></div>
       <div className='date'> {sighting.date}</div>
         <div className='organismName'>{sighting.organismName}</div>
         <div className='userName'> {sighting.userName}</div>

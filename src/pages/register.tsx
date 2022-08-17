@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import { RegisterForm } from '../components/registerForm';
 
 function Register() {
