@@ -8,14 +8,12 @@
 }
 
 .sightingsmap   {
-    padding-top: 2em;
-    padding-bottom: 4em;
+
 }
 
 .card-bg {
     background-color: #FFF7E3;
     border-radius: 25px;
- 
 }
 
 .list-of-cards {
@@ -23,13 +21,40 @@
     padding: 2em;
     display: flex;
     justify-content: center;
+    background-color: #397E6E;
 }
 
 .header {
-    padding: 2em;
+    background-color: #397E6E;
+    padding: 1em;
     text-align: center;
 }
 
+.confirmed-header {
+    padding: 1em;
+    text-align: center;
+    background-color: #397E6E;
+}
+
+.submit-sighting-btn {
+    width: 100%;
+    padding: 2em;
+    background-color: #BB4D5F;
+    border: none;
+}
+
+.btn-link {
+    color: white;
+    text-decoration: none;
+}
+
+.confirmed-list-of-cards {
+    background-color: #397E6E;
+    width: 100%;
+    padding: 2em;
+    display: flex;
+    justify-content: center;
+}
 .MuiStack-root {
     display: flex;
     justify-content: center;
@@ -43,9 +68,3 @@
 max-width: 100%; height: auto;
 }
 
-img  {
-    width: 400px;
-    height: 300px;
-    width: 100%;
-    height: auto;
-  }
