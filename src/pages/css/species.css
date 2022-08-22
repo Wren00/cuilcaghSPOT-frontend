@@ -56,7 +56,7 @@
 .editprompt {
     padding-top: 1em;
     position: fixed; 
-    bottom: 0px;
+    bottom: 0;
 }
 
 .picture {
