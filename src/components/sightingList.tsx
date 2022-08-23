@@ -31,6 +31,17 @@ export const SightingList = () => {
     fetchData();
   }, []);
 
+  const handleClick = async () => {
+    try {
+      const { data: response } = await axios.put(
+        `http://localhost:5001/api/unverifiedsightings/updateUserVote`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="card-bg">
       <h2 className="header">Unconfirmed sightings that need your vote!</h2>
@@ -77,7 +88,11 @@ export const SightingList = () => {
                       </CardContent>
                     </CardActionArea>
                     <CardActions>
-                      <Button size="small" color="primary">
+                      <Button
+                        size="small"
+                        color="primary"
+                        onClick={handleClick}
+                      >
                         <ArrowCircleUpOutlinedIcon />
                       </Button>
                       <Button size="small" color="primary">
