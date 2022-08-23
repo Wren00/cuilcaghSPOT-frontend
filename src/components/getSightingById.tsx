@@ -2,8 +2,10 @@ import axios from "axios";
 import "../pages/css/sightings.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { UnverifiedSighting } from "../types/sightings.types";
+import { Button } from "@mui/material";
+import ArrowCircleUpOutlinedIcon from "@mui/icons-material/ArrowCircleUpOutlined";
+import ArrowCircleDownOutlinedIcon from "@mui/icons-material/ArrowCircleDownOutlined";
 
 const SightingById = () => {
   const [sighting, setSighting] = useState<UnverifiedSighting>();
@@ -20,6 +22,36 @@ const SightingById = () => {
     };
     fetchData();
   }, []);
+
+  const incrementVote = async () => {
+    console.log(sightingId);
+    try {
+      const { data: response } = await axios.put(
+        `http://localhost:5001/api/unverifiedsightings/incrementUserVote/` +
+          sightingId
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const decrementVote = async () => {
+    console.log(sightingId);
+    try {
+      const { data: response } = await axios.put(
+        `http://localhost:5001/api/unverifiedsightings/decrementUserVote/` +
+          sightingId
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  function refreshPage() {
+    window.location.reload();
+  }
 
   return (
     sighting && (
@@ -39,11 +71,27 @@ const SightingById = () => {
           <div className="long">{sighting.long}</div>
           <div className="reactions">{sighting.userReactions}</div>
           <div className="votes">{sighting.userVotes}</div>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              incrementVote();
+              refreshPage();
+            }}
+          >
+            <ArrowCircleUpOutlinedIcon />
+          </Button>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              decrementVote();
+              refreshPage();
+            }}
+          >
+            <ArrowCircleDownOutlinedIcon />
+          </Button>
         </div>
-        <p className="editprompt">
-          Would you like to add or edit data on this page?
-          <Link to="../submitSpeciesData"> Contact </Link>
-        </p>
       </div>
     )
   );
