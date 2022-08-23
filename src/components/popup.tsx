@@ -1,26 +1,24 @@
-import React, { useState } from "react";
-import "../pages/css/modal.css";
+import React from "react";
+import "../pages/css/popup.css";
 
-function Popup(props: string) {
-  if (props === "success") {
-    return (
-      <div className="popup">
-        <div className="popup-inner">
-          <h3>Login successful!</h3>
-          <button className="close.btn">Close</button>
-        </div>
-      </div>
-    );
-  } else if (props === "fail") {
-    return (
-      <div className="popup">
-        <div className="popup-inner">
-          <h3>Invalid details.</h3>
-          <button className="close.btn">Close</button>
-        </div>
-      </div>
-    );
-  }
+interface Props {
+  onBackdropClick: () => void;
+  content: string;
+  handleClose: React.MouseEventHandler<HTMLSpanElement>;
+  children?: React.ReactNode;
 }
 
-export { Popup };
+const Popup: React.FC<Props> = ({ onBackdropClick, content, handleClose }) => {
+  return (
+    <div className="popup-box">
+      <div className="box">
+        <span className="close-icon" onClick={handleClose}>
+          x
+        </span>
+        {content}
+      </div>
+    </div>
+  );
+};
+
+export default Popup;

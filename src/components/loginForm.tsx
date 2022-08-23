@@ -6,7 +6,6 @@ import Card from "@mui/material/Card";
 import "../pages/css/login.css";
 import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import BaseModalWrapper from "../components/baseModalWrapper";
 
 const LoginForm = () => {
   const [message, setMessage] = useState<string>("");

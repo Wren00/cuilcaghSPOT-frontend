@@ -6,12 +6,10 @@ import Card from "@mui/material/Card";
 import "../pages/css/register.css";
 import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
+import Popup from "./popup";
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-
-let password = "";
-let confirmPassword = "";
+// const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+// const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const RegisterForm = () => {
   const {
@@ -20,28 +18,36 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm<CreateUser>();
 
+  const [password, setPassword] = useState<string>(" ");
+  const [matchPassword, setMatchPassword] = useState<string>(" ");
+
   const [modal, setModal] = useState(false);
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const toggleModal = () => {
-    setModal(!modal);
+    setIsModalVisible((wasModalVisible) => !wasModalVisible);
   };
 
-  console.log(errors);
+  const checkPassword = (password: string, matchPassword: string) => {
+    return !!password.match(matchPassword);
+  };
 
   const onSubmit = (data: any) => {
-    //CHECK password and confirmPassword
-    console.log(data);
-    axios
-      .post("http://localhost:5001/api/users/createUser", data, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error.data);
-      });
+    if (checkPassword(password, matchPassword)) {
+      axios
+        .post("http://localhost:5001/api/users/createUser", data, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    }
   };
+
   return (
     <div>
       <div className="border-line"></div>
@@ -67,24 +73,28 @@ const RegisterForm = () => {
             {errors.emailAddress ? (
               <div>{errors.emailAddress.message}</div>
             ) : null}
-            <label>Password</label>
-            //TODO assign input to password
+            <label htmlFor="password">Password</label>
             <input
               className="input-field"
               {...register("userPassword")}
               minLength={8}
               required={true}
               type="password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                setPassword(e.target.value)
+              }
             />
-            <label>Confirm Password</label>
+            <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               className="input-field"
-              {...register("userPassword")}
               minLength={8}
               required={true}
               type="password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                setMatchPassword(e.target.value)
+              }
             />
-            <button className="btn" type="submit">
+            <button className="btn" type="submit" onClick={toggleModal}>
               Register
             </button>
             <h5>
