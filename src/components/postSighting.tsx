@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "../pages/css/sightings-page.css";
+import "../pages/css/unverified-sightings.css";
 import { useForm } from "react-hook-form";
 import { CreateUnverifiedSighting } from "../types/sightings.types";
 import { ReactMap } from "./map";

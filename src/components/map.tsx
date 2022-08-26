@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import * as React from "react";
-import ReactMapboxGL, { Source, Layer } from "react-map-gl";
+import ReactMapboxGL, { Source, Layer, Marker } from "react-map-gl";
 
 export function ReactMap() {
   const southWest = new mapboxgl.LngLat(-7.8636, 54.2049);
@@ -20,6 +20,14 @@ export function ReactMap() {
       mapStyle="mapbox://styles/mapbox/outdoors-v9"
       minZoom={11}
       attributionControl={false}
-    ></ReactMapboxGL>
+    >
+      {" "}
+      <Marker
+        longitude={-7.8114}
+        latitude={55.201}
+        anchor="top"
+        color="#F97491"
+      ></Marker>
+    </ReactMapboxGL>
   );
 }

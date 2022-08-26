@@ -15,6 +15,7 @@ import SpeciesDataForm from "./pages/submitSpeciesData";
 import SightingDetail from "./pages/selectSighting";
 import SightingDataForm from "./pages/submitSightingData";
 import UserLogin from "./pages/userLogin";
+import ConfirmedSightingDetail from "./pages/selectConfirmedSighting";
 
 function App() {
   return (
@@ -27,6 +28,11 @@ function App() {
           <Route
             path="sightings/sightingpage/:sightingId"
             element={<SightingDetail />}
+          />
+          <Route path="/sightings" element={<Sightings />} />
+          <Route
+            path="sightings/confirmedSightingPage/:sightingId"
+            element={<ConfirmedSightingDetail />}
           />
           <Route
             path="sightings/submitSightingData"

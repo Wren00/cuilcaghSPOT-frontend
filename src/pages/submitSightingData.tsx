@@ -1,5 +1,5 @@
 import { PostSighting } from "../components/postSighting";
-import "./css/sightings-page.css";
+import "./css/unverified-sightings.css";
 
 const SightingDataForm = () => (
   <div className="sightingpage">
