@@ -16,6 +16,7 @@ import {
   Divider,
   Stack,
 } from "@mui/material";
+import DynamicTable from "./speciesTable";
 
 export const SightingList = () => {
   const [sightings, setSightings] = useState<UnverifiedSighting[]>([]);
@@ -56,8 +57,6 @@ export const SightingList = () => {
       console.log(error);
     }
   };
-
-  let id: number;
 
   return (
     <div className="card-bg">

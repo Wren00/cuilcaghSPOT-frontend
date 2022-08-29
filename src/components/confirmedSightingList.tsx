@@ -28,9 +28,9 @@ export const ConfirmedSightingList = () => {
       <h2 className="confirmed-header">Confirmed Sightings in Cuilcagh</h2>
       <div className="confirmed-list-of-cards">
         <Stack
-          direction="row"
+          direction={{ xs: "column", sm: "row" }}
+          spacing={{ xs: 1, sm: 2, md: 4 }}
           divider={<Divider orientation="vertical" flexItem />}
-          spacing={2}
         >
           {sightings.slice(0, 5).map((sighting, index) => (
             <div key={`sightings-${index}`}>

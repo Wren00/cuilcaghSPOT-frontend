@@ -69,6 +69,29 @@ const ConfirmedSightingById = () => {
     }
   };
 
+  const displayReactionCount = async (
+    reactionId: number,
+    sightingId: number
+  ) => {
+    let data = JSON.stringify({
+      sightingId: sightingId,
+      reactionId: reactionId,
+    });
+
+    console.log(data);
+
+    try {
+      const { data: response } = await axios.get(
+        `http://localhost:5001/api/reactions/getSightingReactionCountById/` +
+          sightingId
+      );
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   function refreshPage() {
     window.location.reload();
   }
