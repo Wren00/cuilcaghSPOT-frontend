@@ -12,11 +12,17 @@ import { GroupFilter } from "./taxonGroupFilter";
 export const SpeciesList = () => {
   const [organisms, setOrganism] = useState<Organism[]>([]);
   const [name, setName] = useState("");
-
+  const [pageData, setPageData] = useState<Organism[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleNewPage = (event: unknown, newPage: number) => {
+    console.log(newPage);
+    setPageData(organisms.slice(newPage * 10, newPage * 10 + 9));
     setPage(newPage);
   };
 
@@ -33,6 +39,7 @@ export const SpeciesList = () => {
         `http://localhost:5001/api/organisms/getAllOrganisms`
       );
       setOrganism(response);
+      setPageData(response.slice(0, 9));
     };
     fetchData();
   }, []);
@@ -50,7 +57,7 @@ export const SpeciesList = () => {
               setName(e.target.value);
             }}
           />
-          {organisms
+          {pageData
             .filter((value) => {
               if (name === "") {
                 return value as Organism;
@@ -81,7 +88,7 @@ export const SpeciesList = () => {
           count={organisms.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
+          onPageChange={handleNewPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>

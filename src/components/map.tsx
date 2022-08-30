@@ -1,25 +1,48 @@
-import mapboxgl from "mapbox-gl";
 import * as React from "react";
-import ReactMapboxGL, { Source, Layer } from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import ReactMapboxGL, { Marker, Popup } from "react-map-gl";
+import { UnverifiedSighting } from "../types/sightings.types";
+import { ConfirmedSighting } from "../types/confirmedSighting.types";
 
-export function ReactMap() {
-  const southWest = new mapboxgl.LngLat(-7.8636, 54.2049);
-  const northEast = new mapboxgl.LngLat(-7.73007, 54.2595);
-  const boundingBox = new mapboxgl.LngLatBounds(southWest, northEast);
+interface ReactMapProps {
+  sightingCoordinates: UnverifiedSighting[];
+  confirmedSightingCoordinates: ConfirmedSighting[];
+}
 
+const ReactMap: React.FC<ReactMapProps> = ({
+  sightingCoordinates,
+  confirmedSightingCoordinates,
+}) => {
   return (
     <ReactMapboxGL
       initialViewState={{
         longitude: -7.815915,
         latitude: 54.22,
         zoom: 12,
-        bounds: boundingBox,
       }}
       style={{ height: 600 }}
       mapboxAccessToken="pk.eyJ1Ijoid3JlbjAwIiwiYSI6ImNsNmUydXdxZjAzbGwzaW8zbmJ1Yms4bjcifQ.yZC1cDiSlXC-8JfEIe-URg"
       mapStyle="mapbox://styles/mapbox/outdoors-v9"
-      minZoom={11}
       attributionControl={false}
-    ></ReactMapboxGL>
+    >
+      {sightingCoordinates.map((sighting, index) => (
+        <Marker
+          longitude={sighting.long}
+          latitude={sighting.lat}
+          anchor="top"
+          color="#F97491"
+        ></Marker>
+      ))}
+      {confirmedSightingCoordinates.map((sighting, index) => (
+        <Marker
+          longitude={sighting.long}
+          latitude={sighting.lat}
+          anchor="top"
+          color="#86E9CB"
+        ></Marker>
+      ))}
+    </ReactMapboxGL>
   );
-}
+};
+
+export { ReactMap };

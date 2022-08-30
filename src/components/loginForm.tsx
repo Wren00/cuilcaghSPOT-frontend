@@ -5,9 +5,12 @@ import axios from "axios";
 import Card from "@mui/material/Card";
 import "../pages/css/login.css";
 import { Stack } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Auth from "./authorisation/context";
 
 const LoginForm = () => {
+  const context = React.useContext(Auth.AuthContext);
+  const navigate = useNavigate();
   const [message, setMessage] = useState<string>("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -33,8 +36,13 @@ const LoginForm = () => {
       })
       .then((response) => {
         setMessage("success");
-        console.log(message);
-        console.log(response.data);
+        if (context) {
+          context.updateUserSession({
+            accessToken: response.data[0],
+            refreshToken: response.data[1],
+          });
+        }
+        navigate("/");
       })
       .catch((error) => {
         setMessage("fail");
@@ -46,35 +54,38 @@ const LoginForm = () => {
     <div>
       <div className="border-line"></div>
       <div>
-        <Card>
-          <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-            <Stack direction="column">
-              <label>Username</label>
-              <input
-                className="input-field"
-                {...register("userName")}
-                required={true}
-                type="text"
-              />
-              <label>Password</label>
-              <input
-                className="input-field"
-                {...register("userPassword")}
-                required={true}
-                type="password"
-              />
-              <button className="btn" type="submit">
-                Log In
-              </button>
-              <h5>
-                Don't have an account?{" "}
-                <Link to="../register">Register here</Link>
-              </h5>
-            </Stack>
-          </form>
-          <button onClick={toggleModal}>Show modal</button>
-          <div className="modal-root"></div>
-        </Card>
+        {
+          // context?.userSession.accessToken &&
+          <Card>
+            <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+              <Stack direction="column">
+                <label>Username</label>
+                <input
+                  className="input-field"
+                  {...register("userName")}
+                  required={true}
+                  type="text"
+                />
+                <label>Password</label>
+                <input
+                  className="input-field"
+                  {...register("userPassword")}
+                  required={true}
+                  type="password"
+                />
+                <button className="btn" type="submit">
+                  Log In
+                </button>
+                <h5>
+                  Don't have an account?{" "}
+                  <Link to="../register">Register here</Link>
+                </h5>
+              </Stack>
+            </form>
+            <button onClick={toggleModal}>Show modal</button>
+            <div className="modal-root"></div>
+          </Card>
+        }
       </div>
     </div>
   );
