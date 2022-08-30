@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.5",
     "form-data": "^4.0.0",
+    "jwt-decode": "^3.1.2",
     "mapbox-gl": "^2.9.2",
     "react": "^18.2.0",
     "react-datepicker": "^4.8.0",
