@@ -33,11 +33,11 @@ export const ConfirmedSightingList = () => {
           spacing={2}
         >
           {sightings.slice(0, 5).map((sighting, index) => (
-            <div key={`species-${index}`}>
+            <div key={`sightings-${index}`}>
               <div className="card">
                 <Link
                   className="sighting-button"
-                  to={`/sightings/sightingpage/${sighting.sightingId}`}
+                  to={`/sightings/confirmedSightingPage/${sighting.sightingId}`}
                 >
                   <Card sx={{ height: 300, width: 200 }}>
                     <CardActionArea>

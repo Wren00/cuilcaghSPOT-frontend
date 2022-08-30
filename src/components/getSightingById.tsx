@@ -24,7 +24,6 @@ const SightingById = () => {
   }, []);
 
   const incrementVote = async () => {
-    console.log(sightingId);
     try {
       const { data: response } = await axios.put(
         `http://localhost:5001/api/unverifiedsightings/incrementUserVote/` +
@@ -37,7 +36,6 @@ const SightingById = () => {
   };
 
   const decrementVote = async () => {
-    console.log(sightingId);
     try {
       const { data: response } = await axios.put(
         `http://localhost:5001/api/unverifiedsightings/decrementUserVote/` +
@@ -56,7 +54,7 @@ const SightingById = () => {
   return (
     sighting && (
       <div>
-        <div key={`species-${sighting.sightingId}`}>
+        <div key={`sighting-${sighting.sightingId}`}>
           <div className="largepicture">
             {" "}
             <img src={sighting.pictureUrl} alt="" />
@@ -69,7 +67,6 @@ const SightingById = () => {
           <div className="userName"> {sighting.userName}</div>
           <div className="lat">{sighting.lat}</div>
           <div className="long">{sighting.long}</div>
-          <div className="reactions">{sighting.userReactions}</div>
           <div className="votes">{sighting.userVotes}</div>
           <Button
             size="small"
