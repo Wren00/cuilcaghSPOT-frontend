@@ -13,6 +13,7 @@ export const SpeciesList = () => {
   const [organisms, setOrganism] = useState<Organism[]>([]);
   const [name, setName] = useState("");
 
+  const [pageData, setPageData] = useState<Organism[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -27,16 +28,31 @@ export const SpeciesList = () => {
     setPage(0);
   };
 
+  const handlePagination = (
+    //when click on page increase or decrease page number and update page data
+    event: any,
+    pageNumber: number
+  ) => {
+    console.log(pageNumber);
+    const indexStart = pageNumber * 10;
+    const newPageData = organisms.slice(indexStart, indexStart + 9);
+    console.log(newPageData);
+    setPageData(newPageData);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const { data: response } = await axios.get(
         `http://localhost:5001/api/organisms/getAllOrganisms`
       );
       setOrganism(response);
+
+      const indexData = response.slice(0, 9);
+      setPageData(indexData);
     };
     fetchData();
   }, []);
-  //Where to put a taxon group filter?
+
   return (
     <div>
       <Paper sx={{ width: "100%" }}>
@@ -50,30 +66,31 @@ export const SpeciesList = () => {
               setName(e.target.value);
             }}
           />
-          {organisms
-            .filter((value) => {
-              if (name === "") {
-                return value as Organism;
-              } else if (
-                value.taxonName.toLowerCase().includes(name.toLowerCase()) ||
-                value.latinName.toLowerCase().includes(name.toLowerCase())
-              ) {
-                return value as Organism;
-              }
-            })
-            .map((organism, index) => (
-              <div key={`species-${index}`}>
-                <div className="taxonName">
-                  <Link
-                    className="species-button"
-                    to={`/species/${organism.organismId}`}
-                  >
-                    {organism.taxonName}
-                  </Link>
-                  <div className="latinName">{organism.latinName}</div>
+          {pageData &&
+            pageData
+              .filter((value) => {
+                if (name === "") {
+                  return value as Organism;
+                } else if (
+                  value.taxonName.toLowerCase().includes(name.toLowerCase()) ||
+                  value.latinName.toLowerCase().includes(name.toLowerCase())
+                ) {
+                  return value as Organism;
+                }
+              })
+              .map((organism, index) => (
+                <div key={`species-${index}`}>
+                  <div className="taxonName">
+                    <Link
+                      className="species-button"
+                      to={`/species/${organism.organismId}`}
+                    >
+                      {organism.taxonName}
+                    </Link>
+                    <div className="latinName">{organism.latinName}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
         </Table>
         <TablePagination
           rowsPerPageOptions={[10, 25]}
@@ -81,7 +98,7 @@ export const SpeciesList = () => {
           count={organisms.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
+          onPageChange={handlePagination}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
