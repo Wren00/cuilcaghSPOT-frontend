@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const pages = ["Sightings", "Species", "How To Use", "About", "Contact"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account Settings", "Logout"];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>();
