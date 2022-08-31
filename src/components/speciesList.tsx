@@ -47,8 +47,8 @@ export const SpeciesList = () => {
   return (
     <div>
       <Paper sx={{ width: "100%" }}>
+        <GroupFilter />
         <Table className="list">
-          <GroupFilter />
           <Input
             type="text"
             className="search"

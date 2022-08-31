@@ -34,7 +34,6 @@ const AuthProvider: React.FC<any> = ({ children }) => {
   useEffect(() => {
     const currentDateTime = new Date();
     if (userSession.accessToken) {
-      console.log(userSession.accessToken);
       const { exp: accessExp }: any = jwt_decode(userSession.accessToken);
       const accessExpiryDateTime = new Date(accessExp * 1000);
       if (currentDateTime > accessExpiryDateTime) {

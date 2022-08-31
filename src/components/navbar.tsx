@@ -13,16 +13,26 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import Auth from "./authorisation/context";
+import jwtDecode from "jwt-decode";
 
 const pages = ["Sightings", "Species", "How To Use", "About", "Contact"];
-const settings = ["Profile", "Account Settings", "Logout"];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const context = React.useContext(Auth.AuthContext);
+
+  let userId: number = 0;
+  const token = context?.userSession.accessToken;
+
+  if (token) {
+    const decodedToken = jwtDecode<any>(token);
+    userId = parseInt(decodedToken.userId);
+  }
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -38,16 +48,6 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const [user, setUser] = useState<string>("");
-
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
-    }
-  }, []);
 
   return (
     <AppBar position="static">
@@ -106,7 +106,7 @@ const ResponsiveAppBar = () => {
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     <Link
-                      style={{ textDecoration: "none", color: "white" }}
+                      style={{ textDecoration: "none", color: "black" }}
                       to={`/${page}`}
                     >
                       {page}
@@ -119,8 +119,6 @@ const ResponsiveAppBar = () => {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -128,11 +126,13 @@ const ResponsiveAppBar = () => {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "white",
               textDecoration: "none",
             }}
           >
-            CuilcaghSPOT
+            <Link style={{ textDecoration: "none", color: "white" }} to={`/`}>
+              CuilcaghSPOT
+            </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -173,11 +173,47 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {!context?.userSession.accessToken && (
+                <MenuItem>
+                  <Typography textAlign="center">
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to={`/userLogin`}
+                    >
+                      Login
+                    </Link>
+                  </Typography>
                 </MenuItem>
-              ))}
+              )}
+              {context?.userSession && context.userSession.accessToken && (
+                <MenuItem>
+                  <Typography textAlign="center">
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to={`/profile/` + userId}
+                    >
+                      Profile
+                    </Link>
+                  </Typography>
+                </MenuItem>
+              )}
+              {context?.userSession && context.userSession.accessToken && (
+                <MenuItem>
+                  <Typography textAlign="center">
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to={`/settings/` + userId}
+                    >
+                      Settings
+                    </Link>
+                  </Typography>
+                </MenuItem>
+              )}
+              {context?.userSession && context.userSession.accessToken && (
+                <MenuItem onClick={context?.clearUserToken}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>
@@ -185,4 +221,5 @@ const ResponsiveAppBar = () => {
     </AppBar>
   );
 };
+
 export default ResponsiveAppBar;
