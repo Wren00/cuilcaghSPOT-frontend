@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "../pages/css/sightings-page.css";
+import "../pages/css/unverified-sightings.css";
 import { useForm } from "react-hook-form";
 import { CreateUnverifiedSighting } from "../types/sightings.types";
 import { ReactMap } from "./map";
 import { Input, Stack } from "@mui/material";
 import { Organism } from "../types/species.types";
+import { InteractiveReactMap } from "./postMap";
 
 function PostSighting(this: any) {
   const {
@@ -17,12 +18,10 @@ function PostSighting(this: any) {
   const [name, setName] = useState<string>("");
   let [organismId, setOrganismId] = useState<number>(0);
   const [organismSearch, setOrganismSearch] = useState<Organism[]>([]);
-  const [taxonGroupId, setTaxonGroupId] = useState<number>(1);
   const [pictureUrl, setPictureUrl] = useState<string>("picture.jpg");
   const [userId, setUserId] = useState<number>(1);
   const [lat, setLat] = useState<number>(54.5555);
   const [long, setLong] = useState<number>(-7.2222);
-  const [image, setImage] = useState<{ image: object }>({ image: {} });
 
   let [success, setSuccess] = useState<boolean>(false);
   let [fail, setFail] = useState<boolean>(false);
@@ -82,7 +81,7 @@ function PostSighting(this: any) {
   return (
     <div className="post-sighting-page">
       <div className="post-sighting-map">
-        <ReactMap />
+        <InteractiveReactMap />
       </div>
       <div className="picture-upload"></div>
       <div className="row-div"></div>

@@ -16,6 +16,7 @@ import {
   Divider,
   Stack,
 } from "@mui/material";
+import DynamicTable from "./speciesTable";
 
 export const SightingList = () => {
   const [sightings, setSightings] = useState<UnverifiedSighting[]>([]);
@@ -31,10 +32,25 @@ export const SightingList = () => {
     fetchData();
   }, []);
 
-  const handleClick = async () => {
+  const incrementVote = async (sightingId: number) => {
     try {
+      console.log(sightingId);
       const { data: response } = await axios.put(
-        `http://localhost:5001/api/unverifiedsightings/updateUserVote`
+        `http://localhost:5001/api/unverifiedsightings/incrementUserVote/` +
+          sightingId
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const decrementVote = async (sightingId: number) => {
+    try {
+      console.log(sightingId);
+      const { data: response } = await axios.put(
+        `http://localhost:5001/api/unverifiedsightings/decrementUserVote/` +
+          sightingId
       );
       console.log(response);
     } catch (error) {
@@ -52,14 +68,14 @@ export const SightingList = () => {
           divider={<Divider orientation="vertical" flexItem />}
         >
           {sightings.slice(0, 5).map((sighting, index) => (
-            <div key={`species-${index}`}>
+            <div key={`sightings-${index}`}>
               <div className="card">
-                <Link
-                  className="sighting-button"
-                  to={`/sightings/sightingpage/${sighting.sightingId}`}
-                >
-                  <Card sx={{ height: 300, width: 200 }}>
-                    <CardActionArea>
+                <Card sx={{ height: 300, width: 200 }}>
+                  <CardActionArea>
+                    <Link
+                      className="sighting-button"
+                      to={`/sightings/sightingpage/${sighting.sightingId}`}
+                    >
                       <CardMedia
                         className="cardmedia"
                         component="img"
@@ -67,40 +83,44 @@ export const SightingList = () => {
                         image={sighting.pictureUrl}
                         alt="sighting"
                       />
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          variant="subtitle1"
-                          component="div"
-                        >
-                          {new Date(sighting.date).toLocaleDateString()}
-                        </Typography>
-                        <Typography gutterBottom variant="h5" component="div">
-                          {sighting.organismName}
-                        </Typography>
-                        <Typography
-                          gutterBottom
-                          variant="subtitle2"
-                          component="div"
-                        >
-                          Seen By {sighting.userName}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                      <Button
-                        size="small"
-                        color="primary"
-                        onClick={handleClick}
+                    </Link>
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="subtitle1"
+                        component="div"
                       >
-                        <ArrowCircleUpOutlinedIcon />
-                      </Button>
-                      <Button size="small" color="primary">
-                        <ArrowCircleDownOutlinedIcon />
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Link>
+                        {new Date(sighting.date).toLocaleDateString()}
+                      </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {sighting.organismName}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="subtitle2"
+                        component="div"
+                      >
+                        Seen By {sighting.userName}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => incrementVote(sighting.sightingId)}
+                    >
+                      <ArrowCircleUpOutlinedIcon />
+                    </Button>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => decrementVote(sighting.sightingId)}
+                    >
+                      <ArrowCircleDownOutlinedIcon />
+                    </Button>
+                  </CardActions>
+                </Card>
               </div>
             </div>
           ))}

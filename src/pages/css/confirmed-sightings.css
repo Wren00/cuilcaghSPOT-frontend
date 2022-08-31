@@ -1,0 +1,21 @@
+.reactions {
+    padding: 1em;
+}
+
+.icon-button:focus{
+    background-color: #F97491;
+}
+
+.icon-button {
+    border: none;
+    padding: 0.5em;
+
+}
+
+.sighting-view {
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    padding: 5em;
+    border-radius: 25px;
+}

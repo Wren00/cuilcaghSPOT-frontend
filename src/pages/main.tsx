@@ -28,6 +28,9 @@ function Home() {
         <h2>SIGHTINGS MAP SCREENSHOT</h2>
       </div>
       <div className="featured">FEATURED SPECIES AND SIGHTINGS</div>
+      <div className="hygiene-tips">
+        WHEN EXPLORING BOG REMEMBER TO CLEAN UP AND TAKE ALL LITTER
+      </div>
     </div>
   );
 }
