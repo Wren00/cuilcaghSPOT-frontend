@@ -1,6 +1,6 @@
 import * as React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import ReactMapboxGL, { Marker } from "react-map-gl";
+import ReactMapboxGL, { Marker, Popup } from "react-map-gl";
 import { UnverifiedSighting } from "../types/sightings.types";
 import { ConfirmedSighting } from "../types/confirmedSighting.types";
 
@@ -25,7 +25,6 @@ const ReactMap: React.FC<ReactMapProps> = ({
       mapStyle="mapbox://styles/mapbox/outdoors-v9"
       attributionControl={false}
     >
-      {" "}
       {sightingCoordinates.map((sighting, index) => (
         <Marker
           longitude={sighting.long}
