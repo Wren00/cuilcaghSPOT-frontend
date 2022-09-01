@@ -7,12 +7,13 @@ import "../pages/css/login.css";
 import { Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Auth from "./authorisation/context";
+import PopUp from "./popup";
 
 const LoginForm = () => {
   const context = React.useContext(Auth.AuthContext);
   const navigate = useNavigate();
-  const [message, setMessage] = useState<string>("");
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [status, setStatus] = useState<string>("Test message");
+  const [open, setOpen] = React.useState(false);
 
   const {
     register,
@@ -20,13 +21,16 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<CreateUser>();
 
-  const toggleModal = () => {
-    setIsModalVisible((wasModalVisible) => !wasModalVisible);
-    console.log(isModalVisible);
+  const toggleOpen = () => {
+    if (open) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
   };
 
-  const onBackdropClick = () => {
-    setIsModalVisible(false);
+  const handleClick = () => {
+    toggleOpen();
   };
 
   const onSubmit = (data: any) => {
@@ -35,27 +39,30 @@ const LoginForm = () => {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        setMessage("success");
+        setStatus("Successful login! Redirecting...");
+        toggleOpen();
         if (context) {
           context.updateUserSession({
             accessToken: response.data[0],
             refreshToken: response.data[1],
           });
         }
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       })
       .catch((error) => {
-        setMessage("fail");
-        console.log(message);
+        setStatus("Login details invalid.");
+        toggleOpen();
         console.log(error.data);
       });
   };
+
   return (
     <div>
       <div className="border-line"></div>
       <div>
         {
-          // context?.userSession.accessToken &&
           <Card>
             <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
               <Stack direction="column">
@@ -73,17 +80,13 @@ const LoginForm = () => {
                   required={true}
                   type="password"
                 />
-                <button className="btn" type="submit">
-                  Log In
-                </button>
+                <PopUp message={status} open={open} />
                 <h5>
                   Don't have an account?{" "}
                   <Link to="../register">Register here</Link>
                 </h5>
               </Stack>
             </form>
-            <button onClick={toggleModal}>Show modal</button>
-            <div className="modal-root"></div>
           </Card>
         }
       </div>
