@@ -1,5 +1,5 @@
 type UserProfile = {
-  id: number;
+  profileId: number;
   profilePicture: string;
   profileMessage: string;
 };
