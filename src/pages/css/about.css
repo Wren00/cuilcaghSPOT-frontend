@@ -3,6 +3,8 @@
     align-items: center;
     justify-content: center;
     padding: 5em;
+    margin: 2em;
+    border-radius: 25px;
 }
 
 .park-img {

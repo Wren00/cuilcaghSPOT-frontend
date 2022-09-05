@@ -16,6 +16,7 @@ import SightingDetail from "./pages/selectSighting";
 import SightingDataForm from "./pages/submitSightingData";
 import UserLogin from "./pages/userLogin";
 import ConfirmedSightingDetail from "./pages/selectConfirmedSighting";
+import UserProfile from "./pages/userProfile";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/userLogin" element={<UserLogin />} />
+          <Route path="/profile/:id" element={<UserProfile />} />
         </Routes>
         <link
           href="https://fonts.googleapis.com/css?family=Quicksand"

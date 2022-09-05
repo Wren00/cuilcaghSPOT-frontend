@@ -1,0 +1,17 @@
+ .profile {
+     padding: 2em;
+     background-color: white;
+     border-radius: 25px;
+     margin: 1em;
+ }
+
+ .username {
+     padding: 1em;
+     font-size: large;
+     font-weight: bold;
+ }
+
+ .picture {
+     width: 350px;
+     height: auto;
+ }
