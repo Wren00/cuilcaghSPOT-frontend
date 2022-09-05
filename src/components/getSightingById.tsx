@@ -11,6 +11,7 @@ const SightingById = () => {
   const [sighting, setSighting] = useState<UnverifiedSighting>();
 
   let { sightingId } = useParams();
+  console.log(sightingId);
 
   useEffect(() => {
     const fetchData = async () => {

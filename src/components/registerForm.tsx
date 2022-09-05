@@ -5,13 +5,19 @@ import axios from "axios";
 import Card from "@mui/material/Card";
 import "../pages/css/register.css";
 import { Stack } from "@mui/material";
-import { Link } from "react-router-dom";
-import Popup from "./popup";
+import { Link, useNavigate } from "react-router-dom";
+import Auth from "./authorisation/context";
+import RegistrationPopUp from "./popups/registrationPopup";
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const RegisterForm = () => {
+  const context = React.useContext(Auth.AuthContext);
+  const navigate = useNavigate();
+  const [status, setStatus] = useState<string>("");
+  const [open, setOpen] = React.useState(false);
+
   const {
     register,
     handleSubmit,
@@ -21,30 +27,30 @@ const RegisterForm = () => {
   const [password, setPassword] = useState<string>(" ");
   const [matchPassword, setMatchPassword] = useState<string>(" ");
 
-  const [modal, setModal] = useState(false);
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setIsModalVisible((wasModalVisible) => !wasModalVisible);
-  };
-
   const checkPassword = (password: string, matchPassword: string) => {
     return !!password.match(matchPassword);
   };
 
   const onSubmit = (data: any) => {
+    setStatus("");
     if (checkPassword(password, matchPassword)) {
       axios
         .post("http://localhost:5001/api/users/createUser", data, {
           headers: { "Content-Type": "application/json" },
         })
         .then((response) => {
-          console.log(response.data);
+          setStatus("Welcome, you can now login! Redirecting...");
+          console.log({ status });
+          setTimeout(() => {
+            navigate("/userLogin");
+          }, 2000);
         })
         .catch((error) => {
+          setStatus("Error, please try again.");
           console.log(error.data);
         });
+    } else {
+      setStatus("Details invalid, please try again.");
     }
   };
 
@@ -94,9 +100,7 @@ const RegisterForm = () => {
                 setMatchPassword(e.target.value)
               }
             />
-            <button className="btn" type="submit" onClick={toggleModal}>
-              Register
-            </button>
+            <RegistrationPopUp message={status} open={open} setOpen={setOpen} />
             <h5>
               Already registered? <Link to="../userLogin">LOGIN</Link>
             </h5>
