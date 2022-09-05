@@ -1,0 +1,21 @@
+.Contact {
+    width: auto;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    padding: 5em;
+    margin: 2em;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.contact-button {
+    padding: 1em;
+}
+
+@media (max-width: 800px) {
+    .Contact {
+        flex-direction: column;
+    }
+}
