@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import "../pages/css/unverified-sightings.css";
 import { useForm } from "react-hook-form";
 import { CreateUnverifiedSighting } from "../types/sightings.types";
-import { ReactMap } from "./map";
 import { Input, Stack } from "@mui/material";
 import { Organism } from "../types/species.types";
 import { InteractiveReactMap } from "./postMap";
+import SightingPopUp from "../components/popups/sightingPopup";
 
 function PostSighting(this: any) {
   const {
@@ -14,6 +14,9 @@ function PostSighting(this: any) {
     handleSubmit,
     formState: { errors },
   } = useForm<CreateUnverifiedSighting>();
+
+  const [status, setStatus] = useState<string>("");
+  const [open, setOpen] = React.useState(false);
 
   const [name, setName] = useState<string>("");
   let [organismId, setOrganismId] = useState<number>(0);
@@ -48,9 +51,11 @@ function PostSighting(this: any) {
         { headers: { "Content-Type": "application/json" } }
       )
       .then((response) => {
+        setStatus("Sighting posted, thanks Spotter!");
         console.log(response.data);
       })
       .catch((error) => {
+        setStatus("Could not post sighting, try again.");
         console.log(error.data);
       });
   };
@@ -71,11 +76,6 @@ function PostSighting(this: any) {
         console.log(error.data);
         setFail(true);
       });
-  };
-
-  const checkSuccess = () => {
-    if (success) {
-    }
   };
 
   return (
@@ -207,7 +207,7 @@ function PostSighting(this: any) {
               })}
             />
           </div>
-          <button type="submit">Submit Sighting</button>
+          <SightingPopUp message={status} open={open} setOpen={setOpen} />
         </form>
       </div>
     </div>
