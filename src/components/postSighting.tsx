@@ -7,6 +7,8 @@ import { Input, Stack } from "@mui/material";
 import { Organism } from "../types/species.types";
 import { InteractiveReactMap } from "./postMap";
 import SightingPopUp from "../components/popups/sightingPopup";
+import Auth from "./authorisation/context";
+import jwtDecode from "jwt-decode";
 
 function PostSighting(this: any) {
   const {
@@ -22,12 +24,22 @@ function PostSighting(this: any) {
   let [organismId, setOrganismId] = useState<number>(0);
   const [organismSearch, setOrganismSearch] = useState<Organism[]>([]);
   const [pictureUrl, setPictureUrl] = useState<string>("picture.jpg");
-  const [userId, setUserId] = useState<number>(1);
   const [lat, setLat] = useState<number>(54.5555);
   const [long, setLong] = useState<number>(-7.2222);
 
   let [success, setSuccess] = useState<boolean>(false);
   let [fail, setFail] = useState<boolean>(false);
+
+  const context = React.useContext(Auth.AuthContext);
+  const token = context?.userSession.accessToken;
+
+  let tokenId: number = 0;
+
+  if (token) {
+    const decodedToken = jwtDecode<any>(token);
+    tokenId = parseInt(decodedToken.userId);
+    console.log(tokenId);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -167,7 +179,7 @@ function PostSighting(this: any) {
             <label htmlFor="userId"> User Id</label>
             <input
               type="hidden"
-              value={userId}
+              value={tokenId}
               {...register("userId", {
                 valueAsNumber: true,
               })}
