@@ -13,6 +13,7 @@ import jwtDecode from "jwt-decode";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { SaveOutlined } from "@mui/icons-material";
+import UploadImageToS3WithNativeSdk from "../components/aws-test";
 
 const UserProfilePage = () => {
   let { id } = useParams();
@@ -121,6 +122,9 @@ const UserProfilePage = () => {
               </Tooltip>
             </div>
           )}
+        </Grid>
+        <Grid>
+          <UploadImageToS3WithNativeSdk />
         </Grid>
         <Grid item className="message" md={6} sm={12}>
           {profile?.profileMessage}

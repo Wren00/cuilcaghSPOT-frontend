@@ -24,11 +24,8 @@ function PostSighting(this: any) {
   let [organismId, setOrganismId] = useState<number>(0);
   const [organismSearch, setOrganismSearch] = useState<Organism[]>([]);
   const [pictureUrl, setPictureUrl] = useState<string>("picture.jpg");
-  const [lat, setLat] = useState<number>(54.5555);
-  const [long, setLong] = useState<number>(-7.2222);
-
-  let [success, setSuccess] = useState<boolean>(false);
-  let [fail, setFail] = useState<boolean>(false);
+  let [lat, setLat] = useState<number>(0);
+  let [long, setLong] = useState<number>(0);
 
   const context = React.useContext(Auth.AuthContext);
   const token = context?.userSession.accessToken;
@@ -38,7 +35,6 @@ function PostSighting(this: any) {
   if (token) {
     const decodedToken = jwtDecode<any>(token);
     tokenId = parseInt(decodedToken.userId);
-    console.log(tokenId);
   }
 
   useEffect(() => {
@@ -53,8 +49,10 @@ function PostSighting(this: any) {
 
   const createUnverifiedSighting = (data: CreateUnverifiedSighting) => {
     console.log(typeof data);
-    console.log(data);
+    console.log({ data });
     data.organismId = organismId;
+    data.lat = lat;
+    data.long = long;
 
     axios
       .post(
@@ -81,19 +79,23 @@ function PostSighting(this: any) {
       )
       .then((response) => {
         setOrganismSearch(response.data);
-        setSuccess(true);
         console.log(response.data);
       })
       .catch((error) => {
         console.log(error.data);
-        setFail(true);
       });
   };
 
   return (
     <div className="post-sighting-page">
+      Where did you see it?
       <div className="post-sighting-map">
-        <InteractiveReactMap />
+        <InteractiveReactMap
+          lat={lat}
+          setLat={setLat}
+          long={long}
+          setLong={setLong}
+        />
       </div>
       <div className="picture-upload"></div>
       <div className="row-div"></div>
@@ -165,7 +167,6 @@ function PostSighting(this: any) {
       <div className="post-sighting-form">
         <form onSubmit={handleSubmit(createUnverifiedSighting)}>
           <div>
-            <label htmlFor="organismId">Organism Id</label>
             <input
               type="hidden"
               value={organismId}
@@ -173,10 +174,8 @@ function PostSighting(this: any) {
                 valueAsNumber: true,
               })}
             />
-            <button>{organismId}</button>
           </div>
           <div>
-            <label htmlFor="userId"> User Id</label>
             <input
               type="hidden"
               value={tokenId}
