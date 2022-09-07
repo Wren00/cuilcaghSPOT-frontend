@@ -1,5 +1,5 @@
 import "./css/sightings.css";
-import { ReactMap } from "../components/map";
+import { ReactMap } from "../components/maps/map";
 import { SightingList } from "../components/sightingList";
 import { Link } from "react-router-dom";
 import { ConfirmedSightingList } from "../components/confirmedSightingList";

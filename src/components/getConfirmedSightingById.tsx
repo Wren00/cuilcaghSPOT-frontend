@@ -12,6 +12,7 @@ import {
 } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { Reactions } from "../types/reactions.types";
+import { ConfirmedSightingMap } from "./maps/confirmedSightingMap";
 
 const ConfirmedSightingById = () => {
   const [sighting, setSighting] = useState<ConfirmedSighting>();
@@ -29,17 +30,6 @@ const ConfirmedSightingById = () => {
     };
     fetchData();
   }, []);
-
-  const getReactionNames = async () => {
-    try {
-      const { data: response } = await axios.put(
-        `http://localhost:5001/api/reactions/getAllReactions`
-      );
-      setReactions(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const incrementUserReaction = async (
     sightingId: number,
@@ -99,6 +89,7 @@ const ConfirmedSightingById = () => {
   return (
     sighting && (
       <div>
+        <ConfirmedSightingMap confirmedSightingCoordinates={sighting} />
         <div key={`sighting-${sighting.sightingId}`}>
           <div className="largepicture">
             {" "}
@@ -110,8 +101,6 @@ const ConfirmedSightingById = () => {
           </div>
           <div className="organismName">{sighting.organismName}</div>
           <div className="userName"> {sighting.userName}</div>
-          <div className="lat">{sighting.lat}</div>
-          <div className="long">{sighting.long}</div>
           <Button
             size="small"
             color="primary"

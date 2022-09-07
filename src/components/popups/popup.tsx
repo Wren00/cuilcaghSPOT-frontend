@@ -19,6 +19,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const PopUp: React.FC<PopUpProps> = ({ message, open, setOpen }) => {
+  //Remove the line below, we don't need to reassign message we can just use it as is
+  //const propMessage: string = message;
+
   //Create a state to handle alert severity aka the background colour of the alert snackbar
   //The type 'AlertColor' is a material UI thing, basically it can be one of four values: "success" | "info" | "warning" | "error"
   const [alertSeverity, setAlertSeverity] = useState<AlertColor>("info");

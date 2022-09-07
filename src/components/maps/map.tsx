@@ -1,8 +1,8 @@
 import * as React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import ReactMapboxGL, { Marker, Popup } from "react-map-gl";
-import { UnverifiedSighting } from "../types/sightings.types";
-import { ConfirmedSighting } from "../types/confirmedSighting.types";
+import ReactMapboxGL, { Marker } from "react-map-gl";
+import { UnverifiedSighting } from "../../types/sightings.types";
+import { ConfirmedSighting } from "../../types/confirmedSighting.types";
 
 interface ReactMapProps {
   sightingCoordinates: UnverifiedSighting[];
@@ -17,8 +17,8 @@ const ReactMap: React.FC<ReactMapProps> = ({
     <ReactMapboxGL
       initialViewState={{
         longitude: -7.815915,
-        latitude: 54.22,
-        zoom: 12,
+        latitude: 54.23,
+        zoom: 11,
       }}
       style={{ height: 600 }}
       mapboxAccessToken="pk.eyJ1Ijoid3JlbjAwIiwiYSI6ImNsNmUydXdxZjAzbGwzaW8zbmJ1Yms4bjcifQ.yZC1cDiSlXC-8JfEIe-URg"

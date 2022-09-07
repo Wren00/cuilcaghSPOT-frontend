@@ -13,18 +13,28 @@
 }
 
 .group-button-div {
-    padding: 2em;
+    padding: 0.5em;
     align-content: center;
+    width: auto;
 }
 
 .css-1y50jm1-MuiStack-root {
     align-content: center;
 }
 
+.date-picker {
+    padding-bottom: 2em;
+    padding-top: 2em;
+}
+
+.species-name {
+    width: auto;
+}
+
 .button {
    border: none;
     padding: 0.2em;
     background-color:#397E6E;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 50px;
 }

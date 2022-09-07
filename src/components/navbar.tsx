@@ -15,8 +15,18 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import Auth from "./authorisation/context";
 import jwtDecode from "jwt-decode";
+import { User } from "../types/users.types";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const pages = ["Sightings", "Species", "How To Use", "About", "Contact"];
+const pages = [
+  "Sightings",
+  "Species",
+  "Posts",
+  "How To Use",
+  "About",
+  "Contact",
+];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>();
@@ -26,7 +36,10 @@ const ResponsiveAppBar = () => {
 
   const context = React.useContext(Auth.AuthContext);
 
+  const [user, setUser] = useState<User>();
+
   let userId: number = 0;
+
   const token = context?.userSession.accessToken;
 
   if (token) {
@@ -48,6 +61,16 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: response } = await axios.get(
+        `http://localhost:5001/api/users/getUserById/` + userId
+      );
+      setUser(response);
+    };
+    fetchData();
+  }, []);
 
   return (
     <AppBar position="static">
@@ -209,6 +232,20 @@ const ResponsiveAppBar = () => {
                   </Typography>
                 </MenuItem>
               )}
+              {context?.userSession &&
+                context.userSession.accessToken &&
+                user?.userLevelId === 3 && (
+                  <MenuItem>
+                    <Typography textAlign="center">
+                      <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to={`/admin/` + userId}
+                      >
+                        Admin
+                      </Link>
+                    </Typography>
+                  </MenuItem>
+                )}
               {context?.userSession && context.userSession.accessToken && (
                 <MenuItem onClick={context?.clearUserToken}>
                   <Typography textAlign="center">Logout</Typography>
