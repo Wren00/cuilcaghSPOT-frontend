@@ -3,12 +3,23 @@ import React, { useEffect, useState } from "react";
 import "../pages/css/unverified-sightings.css";
 import { useForm } from "react-hook-form";
 import { CreateUnverifiedSighting } from "../types/sightings.types";
-import { Input, Stack } from "@mui/material";
+import {
+  Avatar,
+  Input,
+  List,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { Organism } from "../types/species.types";
-import { InteractiveReactMap } from "./postMap";
+import { InteractiveReactMap } from "./maps/postMap";
 import SightingPopUp from "../components/popups/sightingPopup";
 import Auth from "./authorisation/context";
 import jwtDecode from "jwt-decode";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 function PostSighting(this: any) {
   const {
@@ -26,6 +37,7 @@ function PostSighting(this: any) {
   const [pictureUrl, setPictureUrl] = useState<string>("picture.jpg");
   let [lat, setLat] = useState<number>(0);
   let [long, setLong] = useState<number>(0);
+  let [date, setDate] = useState<Date>();
 
   const context = React.useContext(Auth.AuthContext);
   const token = context?.userSession.accessToken;
@@ -47,10 +59,19 @@ function PostSighting(this: any) {
     fetchData();
   }, []);
 
+  const handleDateChange = (newDate: Date) => {
+    setDate(newDate);
+  };
+
   const createUnverifiedSighting = (data: CreateUnverifiedSighting) => {
     console.log(typeof data);
     console.log({ data });
     data.organismId = organismId;
+    data.userId = tokenId;
+    data.userVotes = 0;
+    if (date) {
+      data.date = date.toLocaleDateString();
+    }
     data.lat = lat;
     data.long = long;
 
@@ -153,12 +174,25 @@ function PostSighting(this: any) {
             .map((organism, index) => (
               <div key={`species-${index}`}>
                 <div className="species-name">
-                  <button
-                    className="species-button"
-                    onClick={() => setOrganismId(organism.organismId)}
+                  <List
+                    sx={{
+                      width: "100%",
+                      maxWidth: 1,
+                      bgcolor: "background.paper",
+                    }}
                   >
-                    {organism.taxonName}
-                  </button>
+                    <ListItemButton
+                      onClick={() => setOrganismId(organism.organismId)}
+                    >
+                      <ListItemAvatar>
+                        <Avatar alt="species" src={organism.pictureUrl} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={organism.taxonName}
+                        secondary={organism.latinName}
+                      />
+                    </ListItemButton>
+                  </List>
                 </div>
               </div>
             ))}
@@ -167,57 +201,30 @@ function PostSighting(this: any) {
       <div className="post-sighting-form">
         <form onSubmit={handleSubmit(createUnverifiedSighting)}>
           <div>
-            <input
-              type="hidden"
-              value={organismId}
-              {...register("organismId", {
-                valueAsNumber: true,
-              })}
-            />
+            <label htmlFor="pictureUrl">Upload your photo!</label>
           </div>
           <div>
-            <input
-              type="hidden"
-              value={tokenId}
-              {...register("userId", {
-                valueAsNumber: true,
-              })}
-            />
-          </div>
-          <div>
-            <label htmlFor="pictureUrl">Picture Url</label>
             <input
               {...register("pictureUrl")}
               type="string"
               value={pictureUrl}
             />
           </div>
-          <div>
+          <div className="date-picker">
             <label htmlFor="date"> When did you see it?</label>
-            <input {...register("date")} type="date" />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              {" "}
+              <DesktopDatePicker
+                label="Date"
+                inputFormat="MM/dd/yyyy"
+                value={date}
+                onChange={handleDateChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
           </div>
-          <div>
-            <label htmlFor="lat"> Lat</label>
-            <input
-              type="hidden"
-              step={0.0001}
-              value={lat}
-              {...register("lat", {
-                valueAsNumber: true,
-              })}
-            />
-          </div>
-          <div>
-            <label htmlFor="long"> Long</label>
-            <input
-              type="hidden"
-              step={0.0001}
-              value={long}
-              {...register("long", {
-                valueAsNumber: true,
-              })}
-            />
-          </div>
+          <div></div>
+          <div></div>
           <SightingPopUp message={status} open={open} setOpen={setOpen} />
         </form>
       </div>

@@ -1,8 +1,8 @@
 import * as React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ReactMapboxGL, { Marker } from "react-map-gl";
-import { UnverifiedSighting } from "../types/sightings.types";
-import { ConfirmedSighting } from "../types/confirmedSighting.types";
+import { UnverifiedSighting } from "../../types/sightings.types";
+import { ConfirmedSighting } from "../../types/confirmedSighting.types";
 
 interface ReactMapProps {
   sightingCoordinates: UnverifiedSighting[];

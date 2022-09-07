@@ -6,6 +6,7 @@ import { UnverifiedSighting } from "../types/sightings.types";
 import { Button } from "@mui/material";
 import ArrowCircleUpOutlinedIcon from "@mui/icons-material/ArrowCircleUpOutlined";
 import ArrowCircleDownOutlinedIcon from "@mui/icons-material/ArrowCircleDownOutlined";
+import { UnverifiedSightingMap } from "./maps/unverifiedSightingMap";
 
 const SightingById = () => {
   const [sighting, setSighting] = useState<UnverifiedSighting>();
@@ -48,12 +49,13 @@ const SightingById = () => {
   };
 
   function refreshPage() {
-    window.location.reload();
+    window.location = window.location;
   }
 
   return (
     sighting && (
       <div>
+        <UnverifiedSightingMap sightingCoordinates={sighting} />
         <div key={`sighting-${sighting.sightingId}`}>
           <div className="largepicture">
             {" "}
@@ -65,8 +67,6 @@ const SightingById = () => {
           </div>
           <div className="organismName">{sighting.organismName}</div>
           <div className="userName"> {sighting.userName}</div>
-          <div className="lat">{sighting.lat}</div>
-          <div className="long">{sighting.long}</div>
           <div className="votes">{sighting.userVotes}</div>
           <Button
             size="small"

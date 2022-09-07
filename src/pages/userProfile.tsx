@@ -85,22 +85,19 @@ const UserProfilePage = () => {
       const { data: response } = await axios.get(
         `http://localhost:5001/api/users/getUserById/` + id
       );
-      console.log(response);
       setUser(response);
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data: response } = await axios.get(
         `http://localhost:5001/api/users/getProfileByUserId/` + id
       );
-      console.log("setting user", response);
-      setProfile(response);
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <div className="profile">

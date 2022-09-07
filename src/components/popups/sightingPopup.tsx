@@ -52,7 +52,12 @@ const SightingPopUp: React.FC<PopUpProps> = ({ message, open, setOpen }) => {
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
-      <Button variant="outlined" onClick={handleClick} type="submit">
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={handleClick}
+        type="submit"
+      >
         Submit sighting
       </Button>
       {message && (

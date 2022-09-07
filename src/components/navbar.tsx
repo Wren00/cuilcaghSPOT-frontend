@@ -67,7 +67,6 @@ const ResponsiveAppBar = () => {
       const { data: response } = await axios.get(
         `http://localhost:5001/api/users/getUserById/` + userId
       );
-      console.log(response);
       setUser(response);
     };
     fetchData();

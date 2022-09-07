@@ -18,6 +18,7 @@ type CreateUnverifiedSighting = {
   date: string;
   lat: number;
   long: number;
+  userVotes: number;
 };
 
 export type { UnverifiedSighting, CreateUnverifiedSighting };

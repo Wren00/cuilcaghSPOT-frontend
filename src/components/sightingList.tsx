@@ -16,7 +16,6 @@ import {
   Divider,
   Stack,
 } from "@mui/material";
-import DynamicTable from "./speciesTable";
 
 export const SightingList = () => {
   const [sightings, setSightings] = useState<UnverifiedSighting[]>([]);
@@ -33,13 +32,53 @@ export const SightingList = () => {
   }, []);
 
   const incrementVote = async (sightingId: number) => {
+    let checkSighting;
+    let verifiedSighting;
+
     try {
-      console.log(sightingId);
       const { data: response } = await axios.put(
         `http://localhost:5001/api/unverifiedsightings/incrementUserVote/` +
           sightingId
       );
-      console.log(response);
+      checkSighting = response;
+      console.log(checkSighting);
+
+      if (checkSighting.user_votes >= 5) {
+        console.log("reaching");
+        verifiedSighting = {
+          sightingId: checkSighting.id,
+          organismId: checkSighting.organism_id,
+          userId: checkSighting.user_id,
+          pictureUrl: checkSighting.picture_url,
+          date: checkSighting.date,
+          lat: checkSighting.lat,
+          long: checkSighting.long,
+        };
+        console.log(verifiedSighting);
+
+        const addSighting = await axios
+          .post(
+            `http://localhost:5001/api/confirmedsightings/createConfirmedSighting`,
+            verifiedSighting,
+            {
+              headers: { "Content-Type": "application/json" },
+            }
+          )
+          .then((response) => {})
+          .catch((error) => {
+            console.log(error.data);
+          });
+
+        const deleteSighting = await axios
+          .delete(
+            `http://localhost:5001/api/unverifiedsightings/deleteUnverifiedSightingById`,
+            { data: { sightingId } }
+          )
+          .then((response) => {})
+          .catch((error) => {
+            console.log(error.data);
+          });
+      }
     } catch (error) {
       console.log(error);
     }
