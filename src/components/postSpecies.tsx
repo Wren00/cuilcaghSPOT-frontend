@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import "./../pages/css/post-species.css";
 import React, { useState } from "react";
 import { Stack } from "@mui/material";
+import { ApiClient } from "../utils";
 
 function PostSpecies() {
   const [taxonGroupId, setTaxonGroupId] = useState<number>(1);
@@ -15,10 +15,9 @@ function PostSpecies() {
 
   const onSubmit = (data: any) => {
     data.taxonGroupId = taxonGroupId;
-    axios
-      .post("http://localhost:5001/api/organisms/createOrganism", data, {
-        headers: { "Content-Type": "application/json" },
-      })
+    ApiClient.post("organisms/createOrganism", data, {
+      headers: { "Content-Type": "application/json" },
+    })
       .then((response) => {
         console.log(response.data);
       })

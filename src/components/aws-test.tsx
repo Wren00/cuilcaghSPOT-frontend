@@ -5,8 +5,8 @@ const S3_BUCKET = "cuilcaghspot";
 const REGION = "eu-west-1";
 
 AWS.config.update({
-  accessKeyId: "AKIAYDRMF3FLYYXKMZD7",
-  secretAccessKey: "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",
+  accessKeyId: "AKIAYDRMF3FLURNTBJ5F",
+  secretAccessKey: "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",
 });
 
 const myBucket = new AWS.S3({
@@ -26,7 +26,6 @@ const UploadImageToS3WithNativeSdk = () => {
 
   const uploadFile = (file: any) => {
     const params = {
-      ACL: "public-read",
       Body: file,
       Bucket: S3_BUCKET,
       Key: "example.jpg",

@@ -7,8 +7,19 @@
     text-align: center;
 }
 
-.sightingsmap   {
+.sightingIdPage {
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    padding: 5em;
+    margin: 2em;
+    border-radius: 25px;
+}
 
+.sightingIdMap {
+    max-width: 100%;
+    height: auto;
+    padding-bottom: 2em;
 }
 
 .card-bg {
@@ -65,7 +76,8 @@
     max-height: 100px;
 }
 
-.sightingpicture {
-max-width: 100%; height: auto;
+.largeSightingPicture {
+    max-width: 80%;
+    height: auto;
 }
 

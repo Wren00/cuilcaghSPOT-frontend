@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { SaveOutlined } from "@mui/icons-material";
 import UploadImageToS3WithNativeSdk from "../components/aws-test";
+import { ApiClient } from "../utils";
 
 const UserProfilePage = () => {
   let { id } = useParams();
@@ -63,14 +64,9 @@ const UserProfilePage = () => {
         profilePicture: profile?.profilePicture,
       };
 
-      axios
-        .put(
-          "http://localhost:5001/api/users/updateUserProfile",
-          updatedUserProfile,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        )
+      ApiClient.put("users/updateUserProfile", updatedUserProfile, {
+        headers: { "Content-Type": "application/json" },
+      })
         .then((response) => {
           console.log(response);
         })
@@ -82,9 +78,7 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: response } = await axios.get(
-        `http://localhost:5001/api/users/getUserById/` + id
-      );
+      const { data: response } = await ApiClient.get(`users/getUserById/${id}`);
       setUser(response);
     };
     fetchData();
@@ -92,8 +86,8 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: response } = await axios.get(
-        `http://localhost:5001/api/users/getProfileByUserId/` + id
+      const { data: response } = await ApiClient.get(
+        `users/getProfileByUserId/${id}`
       );
     };
     fetchData();

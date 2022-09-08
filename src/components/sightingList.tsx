@@ -1,4 +1,3 @@
-import axios from "axios";
 import "../pages/css/species.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -16,14 +15,18 @@ import {
   Divider,
   Stack,
 } from "@mui/material";
+import * as React from "react";
+import Auth from "./authorisation/context";
+import { ApiClient } from "../utils";
 
 export const SightingList = () => {
+  const context = React.useContext(Auth.AuthContext);
   const [sightings, setSightings] = useState<UnverifiedSighting[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: response } = await axios.get(
-        `http://localhost:5001/api/unverifiedsightings/getAllUnverifiedSightings`
+      const { data: response } = await ApiClient.get(
+        `unverifiedsightings/getAllUnverifiedSightings`
       );
       console.log(response);
       setSightings(response);
@@ -36,9 +39,8 @@ export const SightingList = () => {
     let verifiedSighting;
 
     try {
-      const { data: response } = await axios.put(
-        `http://localhost:5001/api/unverifiedsightings/incrementUserVote/` +
-          sightingId
+      const { data: response } = await ApiClient.put(
+        `unverifiedsightings/incrementUserVote/${sightingId}`
       );
       checkSighting = response;
       console.log(checkSighting);
@@ -56,24 +58,22 @@ export const SightingList = () => {
         };
         console.log(verifiedSighting);
 
-        const addSighting = await axios
-          .post(
-            `http://localhost:5001/api/confirmedsightings/createConfirmedSighting`,
-            verifiedSighting,
-            {
-              headers: { "Content-Type": "application/json" },
-            }
-          )
+        const addSighting = await ApiClient.post(
+          `confirmedsightings/createConfirmedSighting`,
+          verifiedSighting,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        )
           .then((response) => {})
           .catch((error) => {
             console.log(error.data);
           });
 
-        const deleteSighting = await axios
-          .delete(
-            `http://localhost:5001/api/unverifiedsightings/deleteUnverifiedSightingById`,
-            { data: { sightingId } }
-          )
+        const deleteSighting = await ApiClient.delete(
+          `unverifiedsightings/deleteUnverifiedSightingById`,
+          { data: { sightingId } }
+        )
           .then((response) => {})
           .catch((error) => {
             console.log(error.data);
@@ -87,9 +87,8 @@ export const SightingList = () => {
   const decrementVote = async (sightingId: number) => {
     try {
       console.log(sightingId);
-      const { data: response } = await axios.put(
-        `http://localhost:5001/api/unverifiedsightings/decrementUserVote/` +
-          sightingId
+      const { data: response } = await ApiClient.put(
+        `unverifiedsightings/decrementUserVote/${sightingId}`
       );
       console.log(response);
     } catch (error) {
@@ -143,22 +142,24 @@ export const SightingList = () => {
                       </Typography>
                     </CardContent>
                   </CardActionArea>
-                  <CardActions>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={() => incrementVote(sighting.sightingId)}
-                    >
-                      <ArrowCircleUpOutlinedIcon />
-                    </Button>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={() => decrementVote(sighting.sightingId)}
-                    >
-                      <ArrowCircleDownOutlinedIcon />
-                    </Button>
-                  </CardActions>
+                  {context?.userSession && context.userSession.accessToken && (
+                    <CardActions>
+                      <Button
+                        size="small"
+                        color="primary"
+                        onClick={() => incrementVote(sighting.sightingId)}
+                      >
+                        <ArrowCircleUpOutlinedIcon />
+                      </Button>
+                      <Button
+                        size="small"
+                        color="primary"
+                        onClick={() => decrementVote(sighting.sightingId)}
+                      >
+                        <ArrowCircleDownOutlinedIcon />
+                      </Button>
+                    </CardActions>
+                  )}
                 </Card>
               </div>
             </div>

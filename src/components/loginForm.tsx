@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CreateUser } from "../types/users.types";
-import axios from "axios";
 import Card from "@mui/material/Card";
 import "../pages/css/login.css";
 import { Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Auth from "./authorisation/context";
 import PopUp from "./popups/popup";
+import { ApiClient } from "../utils";
 
 const LoginForm = () => {
   const context = React.useContext(Auth.AuthContext);
@@ -21,27 +21,11 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<CreateUser>();
 
-  /* Dont need the below snippet, open and the click is handled within the PopUp class
-
-          const toggleOpen = () => {
-            if (open) {
-              setOpen(false);
-            } else {
-              setOpen(true);
-            }
-          };
-          const handleClick = () => {
-            toggleOpen();
-          };
-  */
-
   const onSubmit = (data: any) => {
-    //Reset status back to empty string otherwise the previous status may show for a split second before it updates
     setStatus("");
-    axios
-      .post("http://localhost:5001/api/auth/userLogin", data, {
-        headers: { "Content-Type": "application/json" },
-      })
+    ApiClient.post("auth/userLogin", data, {
+      headers: { "Content-Type": "application/json" },
+    })
       .then((response) => {
         setStatus("Successful login! Redirecting...");
         if (context) {
@@ -82,9 +66,7 @@ const LoginForm = () => {
                   required={true}
                   type="password"
                 />
-                {
-                  //Pass down setOpen as a prop, means we can use a single state for all open handling
-                }
+                {}
                 <PopUp message={status} open={open} setOpen={setOpen} />
                 <h5>
                   Don't have an account?

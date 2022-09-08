@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../pages/css/unverified-sightings.css";
 import { useForm } from "react-hook-form";
@@ -20,6 +19,7 @@ import Auth from "./authorisation/context";
 import jwtDecode from "jwt-decode";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { ApiClient } from "../utils";
 
 function PostSighting(this: any) {
   const {
@@ -51,8 +51,8 @@ function PostSighting(this: any) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: response } = await axios.get(
-        `http://localhost:5001/api/organisms/getAllOrganisms`
+      const { data: response } = await ApiClient.get(
+        `organisms/getAllOrganisms`
       );
       setOrganismSearch(response);
     };
@@ -75,12 +75,9 @@ function PostSighting(this: any) {
     data.lat = lat;
     data.long = long;
 
-    axios
-      .post(
-        "http://localhost:5001/api/unverifiedsightings/createUnverifiedSighting",
-        data,
-        { headers: { "Content-Type": "application/json" } }
-      )
+    ApiClient.post("unverifiedsightings/createUnverifiedSighting", data, {
+      headers: { "Content-Type": "application/json" },
+    })
       .then((response) => {
         setStatus("Sighting posted, thanks Spotter!");
         console.log(response.data);
@@ -92,12 +89,7 @@ function PostSighting(this: any) {
   };
 
   const getByGroupId = (taxonGroupId: number) => {
-    console.log(taxonGroupId);
-    axios
-      .get(
-        "http://localhost:5001/api/organisms/getOrganismByTaxonGroupId/" +
-          taxonGroupId
-      )
+    ApiClient.get("organisms/getOrganismByTaxonGroupId/${taxonGroupId")
       .then((response) => {
         setOrganismSearch(response.data);
         console.log(response.data);

@@ -12,6 +12,15 @@
     background-color: white;
 }
 
+.search {
+    width: 80%;
+    padding-bottom: 1em;
+}
+
+.species-button {
+    text-decoration: none;
+}
+
 .list {
     background-color: white;
     border-bottom-left-radius: 25px;
@@ -44,17 +53,52 @@
 
 }
 
+.species-header {
+    padding: 1em;
+    background-color: white;
+   border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+}
+
+.species-name {
+    font-size: larger;
+    text-decoration: underline;
+}
+
+.species-latinName {
+    font-style: italic;
+}
+
+.isProtected {
+    color: #F97491;
+}
+
+.separator {
+    padding: 2em;
+    margin: 0;
+    background-color: #BB4D5F;
+}
+
+
 .largepicture {
-    width: 300px;
+    width: auto;
     height: auto;
+    padding-bottom: 2em;
 }
 
 .description {
-    padding: 1em;
+    margin-top: 1em;
+    padding-top: 1em;
+    padding-right: 2em;
+    padding-left: 2em;
+    background-color: #FFFDF6;
+    height: auto;
+    border-radius: 25px;
+    border: 4px;
 }
 
 .editprompt {
-    padding-top: 1em;
+    padding-top: 2em;
     position: fixed; 
     bottom: 0;
 }
