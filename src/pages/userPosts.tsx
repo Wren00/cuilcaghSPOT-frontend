@@ -1,3 +1,11 @@
-const UserPosts = () => <div className="user-post-main"></div>;
+import { PostsList } from "../components/userPostList";
+
+const UserPosts = () => {
+  return (
+    <div className="user-post-main">
+      <PostsList />
+    </div>
+  );
+};
 
 export default UserPosts;

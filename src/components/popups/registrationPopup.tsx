@@ -63,7 +63,7 @@ const RegistrationPopUp: React.FC<PopUpProps> = ({
       {message && (
         <Snackbar
           open={open}
-          autoHideDuration={6000}
+          autoHideDuration={7000}
           onClose={handleClose}
           anchorOrigin={{
             vertical: "bottom",

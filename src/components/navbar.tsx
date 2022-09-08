@@ -17,7 +17,7 @@ import Auth from "./authorisation/context";
 import jwtDecode from "jwt-decode";
 import { User } from "../types/users.types";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { ApiClient } from "../utils";
 
 const pages = [
   "Sightings",
@@ -64,8 +64,8 @@ const ResponsiveAppBar = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: response } = await axios.get(
-        `http://localhost:5001/api/users/getUserById/` + userId
+      const { data: response } = await ApiClient.get(
+        `users/getUserById/${userId}`
       );
       setUser(response);
     };
@@ -232,20 +232,6 @@ const ResponsiveAppBar = () => {
                   </Typography>
                 </MenuItem>
               )}
-              {context?.userSession &&
-                context.userSession.accessToken &&
-                user?.userLevelId === 3 && (
-                  <MenuItem>
-                    <Typography textAlign="center">
-                      <Link
-                        style={{ textDecoration: "none", color: "black" }}
-                        to={`/admin/` + userId}
-                      >
-                        Admin
-                      </Link>
-                    </Typography>
-                  </MenuItem>
-                )}
               {context?.userSession && context.userSession.accessToken && (
                 <MenuItem onClick={context?.clearUserToken}>
                   <Typography textAlign="center">Logout</Typography>

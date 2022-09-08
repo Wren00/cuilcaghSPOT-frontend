@@ -1,4 +1,3 @@
-import axios from "axios";
 import "../pages/css/species.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -8,14 +7,15 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Divider, Stack } from "@mui/material";
 import { ConfirmedSighting } from "../types/confirmedSighting.types";
+import { ApiClient } from "../utils";
 
 export const ConfirmedSightingList = () => {
   const [sightings, setSightings] = useState<ConfirmedSighting[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: response } = await axios.get(
-        `http://localhost:5001/api/confirmedsightings/getAllConfirmedSightings`
+      const { data: response } = await ApiClient.get(
+        `confirmedsightings/getAllConfirmedSightings`
       );
       console.log(response);
       setSightings(response);

@@ -1,4 +1,3 @@
-import axios from "axios";
 import "../pages/css/confirmed-sightings.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -13,6 +12,7 @@ import {
 import { Button } from "@mui/material";
 import { Reactions } from "../types/reactions.types";
 import { ConfirmedSightingMap } from "./maps/confirmedSightingMap";
+import { ApiClient } from "../utils";
 
 const ConfirmedSightingById = () => {
   const [sighting, setSighting] = useState<ConfirmedSighting>();
@@ -22,9 +22,8 @@ const ConfirmedSightingById = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: response } = await axios.get(
-        `http://localhost:5001/api/confirmedsightings/getConfirmedSightingById/` +
-          sightingId
+      const { data: response } = await ApiClient.get(
+        `confirmedsightings/getConfirmedSightingById/${sightingId}`
       );
       setSighting(response);
     };
@@ -43,8 +42,8 @@ const ConfirmedSightingById = () => {
     console.log(data);
 
     try {
-      const { data: response } = await axios.put(
-        `http://localhost:5001/api/reactions/incrementUserReaction`,
+      const { data: response } = await ApiClient.put(
+        `reactions/incrementUserReaction`,
         data,
         {
           headers: {
@@ -71,9 +70,8 @@ const ConfirmedSightingById = () => {
     console.log(data);
 
     try {
-      const { data: response } = await axios.get(
-        `http://localhost:5001/api/reactions/getSightingReactionCountById/` +
-          sightingId
+      const { data: response } = await ApiClient.get(
+        `reactions/getSightingReactionCountById/${sightingId}`
       );
 
       console.log(data);

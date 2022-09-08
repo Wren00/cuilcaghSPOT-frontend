@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CreateUser } from "../types/users.types";
-import axios from "axios";
 import Card from "@mui/material/Card";
 import "../pages/css/register.css";
 import { Stack } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Auth from "./authorisation/context";
 import RegistrationPopUp from "./popups/registrationPopup";
-
-// const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-// const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+import { ApiClient } from "../utils";
 
 const RegisterForm = () => {
   const context = React.useContext(Auth.AuthContext);
@@ -34,10 +31,9 @@ const RegisterForm = () => {
   const onSubmit = (data: any) => {
     setStatus("");
     if (checkPassword(password, matchPassword)) {
-      axios
-        .post("http://localhost:5001/api/users/createUser", data, {
-          headers: { "Content-Type": "application/json" },
-        })
+      ApiClient.post("users/createUser", data, {
+        headers: { "Content-Type": "application/json" },
+      })
         .then((response) => {
           setStatus("Welcome, you can now login! Redirecting...");
           console.log({ status });
