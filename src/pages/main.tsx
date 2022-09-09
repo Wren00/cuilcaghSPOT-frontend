@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./css/main.css";
+import { FeaturedSpecies } from "../components/featuredSpecies";
 
 function Home() {
   return (
@@ -25,11 +26,13 @@ function Home() {
         </div>
       </div>
       <div className="map-main">
-        <h2>SIGHTINGS MAP SCREENSHOT</h2>
+        <div className="map-text">
+          Make wildlife sightings and help scientists!
+        </div>
+        <img src="https://i.ibb.co/Db2dC6H/Screenshot-2022-09-08-at-20-48-00.png" />
       </div>
-      <div className="featured">FEATURED SPECIES AND SIGHTINGS</div>
-      <div className="hygiene-tips">
-        WHEN EXPLORING BOG REMEMBER TO CLEAN UP AND TAKE ALL LITTER
+      <div className="featured">
+        <FeaturedSpecies />
       </div>
     </div>
   );

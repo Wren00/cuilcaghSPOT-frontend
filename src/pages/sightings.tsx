@@ -59,10 +59,14 @@ const Sightings = () => {
       </div>
       <div className="featuredsighting">
         <SightingList />
+        <Link to="./allUnverifiedSightings">See all unverified sightings.</Link>
       </div>
       <div className="featuredconfirmedsighting">
         <ConfirmedSightingList />
       </div>
+      <Link to=".confirmedSightingPage/allConfirmedSightings">
+        See all confirmed sightings.
+      </Link>
     </div>
   );
 };

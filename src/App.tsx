@@ -19,6 +19,9 @@ import ConfirmedSightingDetail from "./pages/selectConfirmedSighting";
 import UserProfile from "./pages/userProfile";
 import AdminPage from "./pages/adminPage";
 import UserPosts from "./pages/userPosts";
+import AllUnverifiedSightings from "./pages/allUnverifiedSightings";
+import AllConfirmedSightings from "./pages/allConfirmedSightings";
+import PostById from "./components/getPostById";
 
 function App() {
   return (
@@ -44,6 +47,14 @@ function App() {
           <Route path="/species" element={<Species />} />
           <Route path="/species/:organismId" element={<SpeciesDetail />} />
           <Route path="submitSpeciesData" element={<SpeciesDataForm />} />
+          <Route
+            path="/sightings/allUnverifiedSightings"
+            element={<AllUnverifiedSightings />}
+          />
+          <Route
+            path="/sightings/allConfirmedSightings"
+            element={<AllConfirmedSightings />}
+          />
           <Route path="/how%20To%20Use" element={<Use />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
@@ -52,6 +63,7 @@ function App() {
           <Route path="/profile/:id" element={<UserProfile />} />
           <Route path="/admin/:id" element={<AdminPage />} />
           <Route path="/posts" element={<UserPosts />} />
+          <Route path="/posts/:id" element={<PostById />} />
         </Routes>
         <link
           href="https://fonts.googleapis.com/css?family=Quicksand"

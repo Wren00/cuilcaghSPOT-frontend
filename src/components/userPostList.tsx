@@ -1,5 +1,5 @@
 import { UserPosts } from "../types/userPosts.types";
-import { Input, Table } from "@mui/material";
+import { Input, Table, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import * as React from "react";
 import Paper from "@mui/material/Paper";

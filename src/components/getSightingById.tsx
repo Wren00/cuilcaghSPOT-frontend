@@ -9,12 +9,25 @@ import { UnverifiedSightingMap } from "./maps/unverifiedSightingMap";
 import * as React from "react";
 import Auth from "./authorisation/context";
 import { ApiClient } from "../utils";
+import { User } from "../types/users.types";
+import jwtDecode from "jwt-decode";
 
 const SightingById = () => {
   const context = React.useContext(Auth.AuthContext);
   const [sighting, setSighting] = useState<UnverifiedSighting>();
+  const [user, setUser] = useState<User>();
 
   let { sightingId } = useParams();
+  let isAdmin: boolean = false;
+
+  let userId: number = 0;
+
+  const token = context?.userSession.accessToken;
+
+  if (token) {
+    const decodedToken = jwtDecode<any>(token);
+    userId = parseInt(decodedToken.userId);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +38,21 @@ const SightingById = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: response } = await ApiClient.get(
+        `users/getUserById/${userId}`
+      );
+      setUser(response);
+      console.log(user);
+    };
+    fetchData();
+  }, []);
+
+  if (user?.userLevelId === 3) {
+    isAdmin = true;
+  }
 
   const incrementVote = async () => {
     try {
@@ -108,6 +136,11 @@ const SightingById = () => {
             </div>
           </Grid>
         </Grid>
+        <div>
+          {context?.userSession &&
+            context.userSession.accessToken &&
+            isAdmin && <button>Delete Sighting</button>}
+        </div>
       </div>
     )
   );

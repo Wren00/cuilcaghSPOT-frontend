@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import AWS from "aws-sdk";
+import { ApiClient } from "../utils";
+import { UserProfile } from "../types/userProfile.types";
 
 const S3_BUCKET = "cuilcaghspot";
 const REGION = "eu-west-1";
+
+interface ImageUploadProps {
+  pictureUrl: string;
+  setPictureUrl: React.Dispatch<React.SetStateAction<string>>;
+}
 
 AWS.config.update({
   accessKeyId: "AKIAYDRMF3FLURNTBJ5F",
@@ -14,9 +21,11 @@ const myBucket = new AWS.S3({
   region: REGION,
 });
 
-const UploadImageToS3WithNativeSdk = () => {
+const UploadImageToS3WithNativeSdk: React.FC<ImageUploadProps> = ({
+  pictureUrl,
+  setPictureUrl,
+}) => {
   const [progress, setProgress] = useState(0);
-  const [imageUrl, setImageUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileInput = (e: any) => {
@@ -28,7 +37,7 @@ const UploadImageToS3WithNativeSdk = () => {
     const params = {
       Body: file,
       Bucket: S3_BUCKET,
-      Key: "example.jpg",
+      Key: file.name,
     };
 
     myBucket
@@ -38,17 +47,18 @@ const UploadImageToS3WithNativeSdk = () => {
       })
       .promise()
       .then((resp) => {
-        setImageUrl(
-          `https://cuilcaghspot.s3.eu-west-1.amazonaws.com/example.jpg`
+        setPictureUrl(
+          `https://cuilcaghspot.s3.eu-west-1.amazonaws.com/${file.name}`
         );
       });
   };
   return (
     <div>
-      <div>Native SDK File Upload Progress is {progress}%</div>
+      <div>Upload Progress is {progress}%</div>
       <input type="file" onChange={handleFileInput} />
-      <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
+      <button onClick={() => uploadFile(selectedFile)}> Upload</button>
     </div>
   );
 };
-export default UploadImageToS3WithNativeSdk;
+
+export { UploadImageToS3WithNativeSdk };
