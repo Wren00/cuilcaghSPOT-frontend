@@ -1,0 +1,28 @@
+.user-profiles {
+  display: flex;
+}
+
+.user-profiles > div {
+  margin-right: 25px;
+}
+
+.input-message {
+  margin: 20px 0;
+}
+
+.edit-save {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.upload-img {
+  margin: 25px;
+}
+
+.icon-btns {
+  margin: 0 15px;
+}
+
+.profile-main h1 {
+  margin-bottom: 0;
+}

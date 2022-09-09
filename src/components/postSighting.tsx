@@ -20,7 +20,7 @@ import jwtDecode from "jwt-decode";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { ApiClient } from "../utils";
-import { UploadImageToS3WithNativeSdk } from "./aws-test";
+import { AWSUpload } from "./awsUpload";
 
 function PostSighting(this: any) {
   const {
@@ -200,7 +200,7 @@ function PostSighting(this: any) {
             <label htmlFor="pictureUrl">Upload your photo! (JPG/PNG..)</label>
           </div>
           <div>
-            <UploadImageToS3WithNativeSdk
+            <AWSUpload
               pictureUrl={pictureUrl}
               setPictureUrl={setPictureUrl}
             />
@@ -208,7 +208,6 @@ function PostSighting(this: any) {
           <div className="date-picker">
             <label htmlFor="date"> When did you see it?</label>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-              {" "}
               <DesktopDatePicker
                 label="Date"
                 inputFormat="MM/dd/yyyy"
