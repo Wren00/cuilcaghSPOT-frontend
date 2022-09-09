@@ -27,7 +27,7 @@ const UserProfilePage = () => {
   const [profile, setProfile] = useState<UserProfile>();
   const [pictureUrl, setPictureUrl] = useState<string>('');
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [profileMessage, setProfileMessage] = useState<string>(' ');
+  const [profileMessage, setProfileMessage] = useState<string>('');
 
   const context = React.useContext(Auth.AuthContext);
   const token = context?.userSession.accessToken;
@@ -121,6 +121,7 @@ const UserProfilePage = () => {
       );
       if (response.profilePicture) {
         setProfile(response);
+        setProfileMessage(response.profileMessage);
       } else {
         setProfile({
           profileMessage: response.profileMessage,
@@ -128,6 +129,7 @@ const UserProfilePage = () => {
           profilePicture:
             'https://cuilcaghspot.s3.eu-west-1.amazonaws.com/userprofile.png',
         });
+        setProfileMessage(response.profileMessage);
       }
     };
     fetchData();
@@ -179,6 +181,7 @@ const UserProfilePage = () => {
               id="outlined-basic"
               variant="outlined"
               fullWidth
+              multiline
               className="input-message"
             />
           ) : (

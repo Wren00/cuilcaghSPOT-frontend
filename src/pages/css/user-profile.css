@@ -6,8 +6,9 @@
   margin-right: 25px;
 }
 
-.input-message {
-  margin: 20px 0;
+.input-message input {
+  margin: 0;
+  padding: 20px 0;
 }
 
 .edit-save {
