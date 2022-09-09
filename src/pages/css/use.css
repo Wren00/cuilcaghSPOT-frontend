@@ -1,0 +1,19 @@
+.use {
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    padding: 5em;
+    margin: 2em;
+    border-radius: 25px;
+}
+
+.header {
+padding: 2em;
+    border-radius: 25px;
+}
+
+.img {
+    height: 100px;
+    width: auto;
+    margin: 0;
+}
