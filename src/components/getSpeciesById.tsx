@@ -56,7 +56,7 @@ const SpeciesById = () => {
   }, []);
 
   if (user) {
-    if (user.userLevelId >= 2) {
+    if (user.trustedUser) {
       trustedUser = true;
     }
   }
