@@ -20,6 +20,7 @@ import jwtDecode from "jwt-decode";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { ApiClient } from "../utils";
+import { UploadImageToS3WithNativeSdk } from "./aws-test";
 
 function PostSighting(this: any) {
   const {
@@ -34,7 +35,7 @@ function PostSighting(this: any) {
   const [name, setName] = useState<string>("");
   let [organismId, setOrganismId] = useState<number>(0);
   const [organismSearch, setOrganismSearch] = useState<Organism[]>([]);
-  const [pictureUrl, setPictureUrl] = useState<string>("picture.jpg");
+  const [pictureUrl, setPictureUrl] = useState<string>("");
   let [lat, setLat] = useState<number>(0);
   let [long, setLong] = useState<number>(0);
   let [date, setDate] = useState<Date>();
@@ -68,6 +69,7 @@ function PostSighting(this: any) {
     console.log({ data });
     data.organismId = organismId;
     data.userId = tokenId;
+    data.pictureUrl = pictureUrl;
     data.userVotes = 0;
     if (date) {
       data.date = date.toLocaleDateString();
@@ -171,6 +173,8 @@ function PostSighting(this: any) {
                       width: "100%",
                       maxWidth: 1,
                       bgcolor: "background.paper",
+                      maxHeight: 100,
+                      overflow: "auto",
                     }}
                   >
                     <ListItemButton
@@ -193,13 +197,12 @@ function PostSighting(this: any) {
       <div className="post-sighting-form">
         <form onSubmit={handleSubmit(createUnverifiedSighting)}>
           <div>
-            <label htmlFor="pictureUrl">Upload your photo!</label>
+            <label htmlFor="pictureUrl">Upload your photo! (JPG/PNG..)</label>
           </div>
           <div>
-            <input
-              {...register("pictureUrl")}
-              type="string"
-              value={pictureUrl}
+            <UploadImageToS3WithNativeSdk
+              pictureUrl={pictureUrl}
+              setPictureUrl={setPictureUrl}
             />
           </div>
           <div className="date-picker">

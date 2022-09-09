@@ -2,7 +2,8 @@ import { PostSighting } from "../components/postSighting";
 import "./css/unverified-sightings.css";
 
 const SightingDataForm = () => (
-  <div className="sightingpage">
+  <div className="sighting-page">
+    Make a Sighting!
     <div className="dataform">
       <PostSighting />
     </div>

@@ -18,6 +18,21 @@ padding: 4em;
     padding: 1em;
 }
 
+.map-main {
+    align-items: center;
+    justify-content: center;
+    padding: 2em;
+    margin: 2em;
+    border-radius: 25px;
+}
+
+.map-text {
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+    padding-bottom: 1em;
+}
+
 .child {
 background-color: #FFFF00;
 width: 100px;

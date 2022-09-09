@@ -104,6 +104,7 @@ export const SightingList = () => {
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
           divider={<Divider orientation="vertical" flexItem />}
+          style={{ maxWidth: 1000, overflow: "auto" }}
         >
           {sightings.slice(0, 5).map((sighting, index) => (
             <div key={`sightings-${index}`}>

@@ -13,7 +13,7 @@ import jwtDecode from "jwt-decode";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { SaveOutlined } from "@mui/icons-material";
-import UploadImageToS3WithNativeSdk from "../components/aws-test";
+import { UploadImageToS3WithNativeSdk } from "../components/aws-test";
 import { ApiClient } from "../utils";
 
 const UserProfilePage = () => {
@@ -21,9 +21,9 @@ const UserProfilePage = () => {
   let parsedId: number = 0;
   const [user, setUser] = useState<User>();
   const [profile, setProfile] = useState<UserProfile>();
+  const [pictureUrl, setPictureUrl] = useState<string>(" ");
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [profileMessage, setProfileMessage] = useState<string>();
-  //check user id matches currently logged in user
+  const [profileMessage, setProfileMessage] = useState<string>(" ");
 
   const context = React.useContext(Auth.AuthContext);
   const token = context?.userSession.accessToken;
@@ -56,12 +56,10 @@ const UserProfilePage = () => {
 
   const saveChanges = () => {
     if (profile && profileMessage) {
-      console.log(profileMessage);
-      console.log(parsedId);
       const updatedUserProfile: UserProfile = {
         profileId: parsedId,
         profileMessage: profileMessage,
-        profilePicture: profile?.profilePicture,
+        profilePicture: pictureUrl,
       };
 
       ApiClient.put("users/updateUserProfile", updatedUserProfile, {
@@ -73,7 +71,6 @@ const UserProfilePage = () => {
         .catch((error) => console.log(error));
     }
     setIsEditMode(false);
-    //Axios update user profile
   };
 
   useEffect(() => {
@@ -89,6 +86,7 @@ const UserProfilePage = () => {
       const { data: response } = await ApiClient.get(
         `users/getProfileByUserId/${id}`
       );
+      setProfile(response);
     };
     fetchData();
   }, [id]);
@@ -99,23 +97,23 @@ const UserProfilePage = () => {
         <Grid item className="username" xs={12}>
           <h1>{user?.userName}</h1>
         </Grid>
-        <Grid item className="picture" md={6} sm={12}>
-          <img
-            src="https://i.ibb.co/LkXVPDM/514-5147366-default-avatar-comments-avatar.jpg"
-            alt="profile picture"
-          />
+        <Grid item className="picture" md={3} sm={6}>
+          <img src={profile?.profilePicture} />
           {isLoggedIn && (
             <div className="div-with-picture-upload">
               <Tooltip title="Upload picture">
                 <Button size="small" color="primary">
-                  <AddPhotoAlternateIcon />
+                  <AddPhotoAlternateIcon onClick={saveChanges} />
                 </Button>
               </Tooltip>
             </div>
           )}
         </Grid>
         <Grid>
-          <UploadImageToS3WithNativeSdk />
+          <UploadImageToS3WithNativeSdk
+            pictureUrl={pictureUrl}
+            setPictureUrl={setPictureUrl}
+          />
         </Grid>
         <Grid item className="message" md={6} sm={12}>
           {profile?.profileMessage}

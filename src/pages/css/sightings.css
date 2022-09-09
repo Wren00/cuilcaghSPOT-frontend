@@ -3,8 +3,23 @@
     width: 100%;
 }
 
+.sighting-page {
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    padding-top: 1em;
+}
+
 .sightingtitle {
     text-align: center;
+}
+
+.post-sighting-page {
+    text-align: center;
+    align-items: center;
+    font-size: x-large;
+    font-weight: bold;
+    padding-top: 1em;
 }
 
 .sightingIdPage {

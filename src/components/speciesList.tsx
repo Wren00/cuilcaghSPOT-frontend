@@ -18,7 +18,6 @@ import { ApiClient } from "../utils";
 
 export const SpeciesList = () => {
   const [organisms, setOrganism] = useState<Organism[]>([]);
-  const [organismSearch, setOrganismSearch] = useState<Organism[]>([]);
 
   const [name, setName] = useState("");
   const [pageData, setPageData] = useState<Organism[]>([]);
@@ -31,7 +30,7 @@ export const SpeciesList = () => {
 
   const handleNewPage = (event: unknown, newPage: number) => {
     console.log(newPage);
-    setPageData(organisms.slice(newPage * 10, newPage * 10 + 9));
+    setPageData(organisms.slice(newPage * 10, newPage * 10 + 10));
     setPage(newPage);
   };
 
@@ -125,20 +124,20 @@ export const SpeciesList = () => {
                   bgcolor: "background.paper",
                 }}
               >
-                <ListItemButton>
-                  <ListItemAvatar>
-                    <Avatar alt="species" src={organism.pictureUrl} />
-                  </ListItemAvatar>
-                  <Link
-                    className="species-button"
-                    to={`/species/${organism.organismId}`}
-                  >
+                <Link
+                  className="species-button"
+                  to={`/species/${organism.organismId}`}
+                >
+                  <ListItemButton>
+                    <ListItemAvatar>
+                      <Avatar alt="species" src={organism.pictureUrl} />
+                    </ListItemAvatar>
                     <ListItemText
                       primary={organism.taxonName}
                       secondary={organism.latinName}
                     />
-                  </Link>
-                </ListItemButton>
+                  </ListItemButton>
+                </Link>
               </List>
             ))}
         </Table>
