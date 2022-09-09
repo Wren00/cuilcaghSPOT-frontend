@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Organism } from "../types/species.types";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import * as React from "react";
 import Auth from "./authorisation/context";
 import { User } from "../types/users.types";
@@ -93,7 +93,7 @@ const SpeciesById = () => {
         {trustedUser && (
           <p className="editprompt">
             Would you like to add or edit data on this page?
-            <Link to="../submitSpeciesData"> Edit </Link>
+            <Link to="/species/post">Submit Data</Link>
           </p>
         )}
       </div>

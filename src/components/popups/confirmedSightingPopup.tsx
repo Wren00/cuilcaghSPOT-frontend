@@ -18,10 +18,18 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const SightingPopUp: React.FC<PopUpProps> = ({ message, open, setOpen }) => {
+const ConfirmedSightingPopUp: React.FC<PopUpProps> = ({
+  message,
+  open,
+  setOpen,
+}) => {
+  //Create a state to handle alert severity aka the background colour of the alert snackbar
+  //The type 'AlertColor' is a material UI thing, basically it can be one of four values: "success" | "info" | "warning" | "error"
   const [alertSeverity, setAlertSeverity] = useState<AlertColor>("info");
 
   const handleClick = () => {
+    //Use the passed down setOpen instead, and make it to be the opposite of whatever it previously was,
+    //e.g. if it was false then make it the opposite of false aka true
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -34,28 +42,17 @@ const SightingPopUp: React.FC<PopUpProps> = ({ message, open, setOpen }) => {
 
   useEffect(() => {
     switch (message) {
-      case "Could not post sighting, try again.":
-        setAlertSeverity("error");
-        break;
-      case "Sighting posted, thanks Spotter!":
+      case "Sighting is now confirmed with more than 5 upvotes! You are being redirected back to the sightings page!":
         setAlertSeverity("success");
         break;
       default:
-        setAlertSeverity("info");
+        setAlertSeverity("error");
         break;
     }
   }, [message]);
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
-      <Button
-        color="secondary"
-        variant="contained"
-        onClick={handleClick}
-        type="submit"
-      >
-        Submit sighting
-      </Button>
       {message && (
         <Snackbar
           open={open}
@@ -79,4 +76,4 @@ const SightingPopUp: React.FC<PopUpProps> = ({ message, open, setOpen }) => {
   );
 };
 
-export default SightingPopUp;
+export default ConfirmedSightingPopUp;

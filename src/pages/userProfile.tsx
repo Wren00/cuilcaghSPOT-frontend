@@ -30,6 +30,7 @@ const UserProfilePage = () => {
 
   let tokenId: number = 0;
   let isLoggedIn: boolean = false;
+  let isAdmin: boolean = false;
 
   if (id) {
     parsedId = parseInt(id);
@@ -42,6 +43,10 @@ const UserProfilePage = () => {
 
   if (tokenId === parsedId) {
     isLoggedIn = true;
+  }
+
+  if (user?.userLevelId === 3) {
+    isAdmin = true;
   }
 
   const updateProfileMessage = (
@@ -91,6 +96,37 @@ const UserProfilePage = () => {
     fetchData();
   }, [id]);
 
+  const updateUserDetails = () => {
+    const updatedUser = {
+      userId: tokenId,
+      trustedUser: true,
+    };
+
+    ApiClient.put("users/updateUserDetails", updatedUser, {
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const updateUserAdmin = () => {
+    const updatedUser = {
+      userId: tokenId,
+      userLevelId: 3,
+    };
+
+    ApiClient.put("users/updateUserDetails", updatedUser, {
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // @ts-ignore
   return (
     <div className="profile">
       <Grid container className="profile-main" spacing={2}>
@@ -141,6 +177,17 @@ const UserProfilePage = () => {
                   </Button>
                 </Tooltip>
               </div>
+              <div>
+                {isAdmin && (
+                  <button onClick={updateUserDetails}>Set as Trusted </button>
+                )}
+              </div>
+              <div>
+                {isAdmin && (
+                  <button onClick={updateUserAdmin}>Set as Admin </button>
+                )}
+              </div>
+              <div>{isAdmin && <button>Delete User</button>}</div>
             </>
           )}
         </Grid>

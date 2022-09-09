@@ -17,7 +17,6 @@ import SightingDataForm from "./pages/submitSightingData";
 import UserLogin from "./pages/userLogin";
 import ConfirmedSightingDetail from "./pages/selectConfirmedSighting";
 import UserProfile from "./pages/userProfile";
-import AdminPage from "./pages/adminPage";
 import UserPosts from "./pages/userPosts";
 import AllUnverifiedSightings from "./pages/allUnverifiedSightings";
 import AllConfirmedSightings from "./pages/allConfirmedSightings";
@@ -61,9 +60,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/userLogin" element={<UserLogin />} />
           <Route path="/profile/:id" element={<UserProfile />} />
-          <Route path="/admin/:id" element={<AdminPage />} />
           <Route path="/posts" element={<UserPosts />} />
           <Route path="/posts/:id" element={<PostById />} />
+          <Route path="/species/post" element={<SpeciesDataForm />} />
         </Routes>
         <link
           href="https://fonts.googleapis.com/css?family=Quicksand"
