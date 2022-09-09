@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import { UserPosts } from "../types/userPosts.types";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { User } from "../types/users.types";
 import * as React from "react";
@@ -10,10 +10,11 @@ import { ApiClient } from "../utils";
 
 const PostById = () => {
   let { id } = useParams();
-  let parsedId: number = 0;
+  let postId: number = 0;
   let isAdmin: boolean = false;
   const [user, setUser] = useState<User>();
   const [post, setPost] = useState<UserPosts>();
+  const navigate = useNavigate();
 
   const context = React.useContext(Auth.AuthContext);
 
@@ -48,6 +49,17 @@ const PostById = () => {
     fetchData();
   }, [id]);
 
+  const deletePost = () => {
+    ApiClient.delete(`posts/deletePostById`, { data: { postId } })
+      .then((response) => {
+        console.log(response);
+        navigate("./posts/");
+      })
+      .catch((error) => {
+        console.log(error.data);
+      });
+  };
+
   return (
     <div className="profile">
       <Grid container className="posts-main" spacing={2}>
@@ -60,7 +72,7 @@ const PostById = () => {
       </Grid>
       <div>
         {context?.userSession && context.userSession.accessToken && isAdmin && (
-          <button>Delete Post</button>
+          <button onClick={deletePost}>Delete Post</button>
         )}
       </div>
     </div>

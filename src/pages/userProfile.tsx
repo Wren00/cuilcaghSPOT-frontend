@@ -91,6 +91,23 @@ const UserProfilePage = () => {
     fetchData();
   }, [id]);
 
+  const updateUserDetails = () => {
+    const updatedUser = {
+      userId: tokenId,
+      userLevelId: 3,
+      trustedUser: true,
+    };
+
+    ApiClient.put("users/updateUserDetails", updatedUser, {
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // @ts-ignore
   return (
     <div className="profile">
       <Grid container className="profile-main" spacing={2}>
@@ -144,6 +161,11 @@ const UserProfilePage = () => {
             </>
           )}
         </Grid>
+        <div>
+          {isLoggedIn && (
+            <button onClick={updateUserDetails}>set as trusted / admin </button>
+          )}
+        </div>
       </Grid>
     </div>
   );

@@ -18,10 +18,15 @@ import {
 import * as React from "react";
 import Auth from "./authorisation/context";
 import { ApiClient } from "../utils";
+import { ConfirmedSighting } from "../types/confirmedSighting.types";
 
 export const SightingList = () => {
   const context = React.useContext(Auth.AuthContext);
   const [sightings, setSightings] = useState<UnverifiedSighting[]>([]);
+  const [confirmedSightings, setConfirmedSightings] = useState<
+    ConfirmedSighting[]
+  >([]);
+  const [userId, setUserId] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,9 +39,23 @@ export const SightingList = () => {
     fetchData();
   }, []);
 
-  const incrementVote = async (sightingId: number) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: response } = await ApiClient.get(
+        `confirmedsightings/getSightingsByUserId/${userId}`
+      );
+      console.log(response);
+      setConfirmedSightings(response);
+    };
+    fetchData();
+  }, []);
+
+  const IncrementVote = async (sightingId: number) => {
     let checkSighting;
     let verifiedSighting;
+    const [confirmedSightings, setConfirmedSightings] = useState<
+      ConfirmedSighting[]
+    >([]);
 
     try {
       const { data: response } = await ApiClient.put(
@@ -56,29 +75,53 @@ export const SightingList = () => {
           lat: checkSighting.lat,
           long: checkSighting.long,
         };
+        setUserId(checkSighting.user_id);
         console.log(verifiedSighting);
+      }
 
-        const addSighting = await ApiClient.post(
-          `confirmedsightings/createConfirmedSighting`,
-          verifiedSighting,
+      if (confirmedSightings.length >= 5) {
+        const trustedUser = {
+          userId: userId,
+          trustedUser: true,
+        };
+
+        const makeTrustedUser = await ApiClient.put(
+          `users/updateUserDetails`,
+          trustedUser,
           {
             headers: { "Content-Type": "application/json" },
           }
         )
-          .then((response) => {})
-          .catch((error) => {
-            console.log(error.data);
-          });
-
-        const deleteSighting = await ApiClient.delete(
-          `unverifiedsightings/deleteUnverifiedSightingById`,
-          { data: { sightingId } }
-        )
-          .then((response) => {})
+          .then((response) => {
+            console.log("success");
+          })
           .catch((error) => {
             console.log(error.data);
           });
       }
+
+      const addSighting = await ApiClient.post(
+        `confirmedsightings/createConfirmedSighting`,
+        verifiedSighting,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+        .then((response) => {})
+        .catch((error) => {
+          console.log(error.data);
+        });
+
+      const deleteSighting = await ApiClient.delete(
+        `unverifiedsightings/deleteUnverifiedSightingById`,
+        { data: { sightingId } }
+      )
+        .then((response) => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -148,7 +191,7 @@ export const SightingList = () => {
                       <Button
                         size="small"
                         color="primary"
-                        onClick={() => incrementVote(sighting.sightingId)}
+                        onClick={() => IncrementVote(sighting.sightingId)}
                       >
                         <ArrowCircleUpOutlinedIcon />
                       </Button>
