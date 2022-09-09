@@ -1,5 +1,5 @@
 import { UserPosts } from "../types/userPosts.types";
-import { Input, Table, Typography } from "@mui/material";
+import { Input, Table } from "@mui/material";
 import { Link } from "react-router-dom";
 import * as React from "react";
 import Paper from "@mui/material/Paper";
@@ -7,14 +7,41 @@ import TablePagination from "@mui/material/TablePagination";
 import { useEffect, useState } from "react";
 import { User } from "../types/users.types";
 import { ApiClient } from "../utils";
+import Auth from "./authorisation/context";
+import jwtDecode from "jwt-decode";
 
 export const PostsList = () => {
   const [posts, setPosts] = useState<UserPosts[]>([]);
-  const [userName, setUserName] = useState<User>();
   const [name, setName] = useState("");
   const [pageData, setPageData] = useState<UserPosts[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [user, setUser] = React.useState<User>();
+  const context = React.useContext(Auth.AuthContext);
+
+  let isAdmin: boolean = false;
+  let userId: number = 0;
+
+  const token = context?.userSession.accessToken;
+
+  if (token) {
+    const decodedToken = jwtDecode<any>(token);
+    userId = parseInt(decodedToken.userId);
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: response } = await ApiClient.get(
+        `users/getUserById/${userId}`
+      );
+      setUser(response);
+    };
+    fetchData();
+  }, [userId]);
+
+  if (user?.userLevelId === 3) {
+    isAdmin = true;
+  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -44,6 +71,12 @@ export const PostsList = () => {
 
   return (
     <div>
+      <div>
+        {" "}
+        {context?.userSession && context.userSession.accessToken && isAdmin && (
+          <button>Add Post</button>
+        )}
+      </div>
       <Paper sx={{ width: "100%" }}>
         <Table className="list">
           <Input

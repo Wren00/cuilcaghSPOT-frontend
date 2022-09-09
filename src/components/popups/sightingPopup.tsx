@@ -19,13 +19,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const SightingPopUp: React.FC<PopUpProps> = ({ message, open, setOpen }) => {
-  //Create a state to handle alert severity aka the background colour of the alert snackbar
-  //The type 'AlertColor' is a material UI thing, basically it can be one of four values: "success" | "info" | "warning" | "error"
   const [alertSeverity, setAlertSeverity] = useState<AlertColor>("info");
 
   const handleClick = () => {
-    //Use the passed down setOpen instead, and make it to be the opposite of whatever it previously was,
-    //e.g. if it was false then make it the opposite of false aka true
     setOpen((prevOpen) => !prevOpen);
   };
 
