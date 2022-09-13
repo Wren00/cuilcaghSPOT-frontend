@@ -1,12 +1,11 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useState } from "react";
 import AWS from "aws-sdk";
-import { ApiClient } from "../utils";
-import { UserProfile } from "../types/userProfile.types";
 import { Box, Button, Typography } from "@mui/material";
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import UploadIcon from '@mui/icons-material/Upload';
-import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
-
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import UploadIcon from "@mui/icons-material/Upload";
+import LinearProgress, {
+  LinearProgressProps,
+} from "@mui/material/LinearProgress";
 
 const S3_BUCKET = "cuilcaghspot";
 const REGION = "eu-west-1";
@@ -26,20 +25,22 @@ const myBucket = new AWS.S3({
   region: REGION,
 });
 
-const LinearProgressWithLabel = (props: LinearProgressProps & { value: number })  =>{
+const LinearProgressWithLabel = (
+  props: LinearProgressProps & { value: number }
+) => {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Box sx={{ width: '100%', mr: 1 }}>
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", mr: 1 }}>
         <LinearProgress variant="determinate" {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
         <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value,
+          props.value
         )}%`}</Typography>
       </Box>
     </Box>
   );
-}
+};
 
 const AWSUpload: React.FC<ImageUploadProps> = ({
   pictureUrl,
@@ -80,9 +81,19 @@ const AWSUpload: React.FC<ImageUploadProps> = ({
   return (
     <div>
       <LinearProgressWithLabel value={progress} />
-      <input style={{display: "none"}}ref={hiddenFileInput} type="file" onChange={handleFileInput} />
-      <Button onClick={handleFileUpload}><AddPhotoAlternateIcon/>Choose Photo</Button>
-      <Button onClick={() => uploadFile(selectedFile)}><UploadIcon /> Upload</Button>
+      <input
+        style={{ display: "none" }}
+        ref={hiddenFileInput}
+        type="file"
+        onChange={handleFileInput}
+      />
+      <Button onClick={handleFileUpload}>
+        <AddPhotoAlternateIcon />
+        Choose Photo
+      </Button>
+      <Button onClick={() => uploadFile(selectedFile)}>
+        <UploadIcon /> Upload
+      </Button>
     </div>
   );
 };

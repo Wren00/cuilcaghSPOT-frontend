@@ -21,6 +21,7 @@ export const PostsList = () => {
 
   let isAdmin: boolean = false;
   let userId: number = 0;
+  let trustedUser: boolean = false;
 
   const token = context?.userSession.accessToken;
 
@@ -41,6 +42,10 @@ export const PostsList = () => {
 
   if (user?.userLevelId === 3) {
     isAdmin = true;
+  }
+
+  if (user?.trustedUser === true) {
+    trustedUser = true;
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -73,9 +78,8 @@ export const PostsList = () => {
     <div>
       <div>
         {" "}
-        {context?.userSession && context.userSession.accessToken && isAdmin && (
-          <button>Add Post</button>
-        )}
+        {(context?.userSession && context.userSession.accessToken && isAdmin) ||
+          (trustedUser && <button>Add Post</button>)}
       </div>
       <Paper sx={{ width: "100%" }}>
         <Table className="list">

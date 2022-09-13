@@ -1,33 +1,33 @@
-import {Grid, TextField} from '@mui/material';
-import './css/profile.css';
-import {UserProfile} from '../types/userProfile.types';
-import {useParams} from 'react-router-dom';
-import {useEffect, useState} from 'react';
-import {User} from '../types/users.types';
-import EditIcon from '@mui/icons-material/Edit';
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import axios from 'axios';
-import * as React from 'react';
-import Auth from '../components/authorisation/context';
-import jwtDecode from 'jwt-decode';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import {SaveOutlined} from '@mui/icons-material';
-import {AWSUpload} from '../components/awsUpload';
-import {ApiClient} from '../utils';
-import './css/user-profile.css';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Grid, TextField } from "@mui/material";
+import "./css/profile.css";
+import { UserProfile } from "../types/userProfile.types";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { User } from "../types/users.types";
+import EditIcon from "@mui/icons-material/Edit";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import axios from "axios";
+import * as React from "react";
+import Auth from "../components/authorisation/context";
+import jwtDecode from "jwt-decode";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import { SaveOutlined } from "@mui/icons-material";
+import { AWSUpload } from "../components/awsUpload";
+import { ApiClient } from "../utils";
+import "./css/user-profile.css";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const UserProfilePage = () => {
-  let {id} = useParams();
+  let { id } = useParams();
   let parsedId: number = 0;
   const [user, setUser] = useState<User>();
   const [profile, setProfile] = useState<UserProfile>();
-  const [pictureUrl, setPictureUrl] = useState<string>('');
+  const [pictureUrl, setPictureUrl] = useState<string>("");
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [profileMessage, setProfileMessage] = useState<string>('');
+  const [profileMessage, setProfileMessage] = useState<string>("");
 
   const context = React.useContext(Auth.AuthContext);
   const token = context?.userSession.accessToken;
@@ -52,7 +52,7 @@ const UserProfilePage = () => {
   const getUserId = async (uid: number) => {
     await ApiClient.get(`users/getUserById/${uid}`)
       .then((response) => {
-        const {data} = response;
+        const { data } = response;
         if (data.userLevelId === 3) {
           setIsAdmin(true);
         }
@@ -66,7 +66,6 @@ const UserProfilePage = () => {
       getUserId(Number(decodedToken.userId));
     }
   }, [token]);
-
 
   const updateProfileMessage = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -86,8 +85,8 @@ const UserProfilePage = () => {
         profilePicture: pictureUrl,
       };
 
-      ApiClient.put('users/updateUserProfile', updatedUserProfile, {
-        headers: {'Content-Type': 'application/json'},
+      ApiClient.put("users/updateUserProfile", updatedUserProfile, {
+        headers: { "Content-Type": "application/json" },
       })
         .then()
         .catch((error) => console.log(error));
@@ -97,26 +96,25 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const {data: response} = await ApiClient.get(`users/getUserById/${id}`);
+      const { data: response } = await ApiClient.get(`users/getUserById/${id}`);
       setUser(response);
     };
     fetchData();
   }, [id]);
 
   useEffect(() => {
-    if(pictureUrl!==""){
-      setProfile(prevProfile => ({
+    if (pictureUrl !== "") {
+      setProfile((prevProfile) => ({
         profileMessage: prevProfile.profileMessage,
         profileId: prevProfile.profileId,
-        profilePicture:
-         pictureUrl
+        profilePicture: pictureUrl,
       }));
     }
   }, [pictureUrl]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const {data: response} = await ApiClient.get(
+      const { data: response } = await ApiClient.get(
         `users/getProfileByUserId/${id}`
       );
       if (response.profilePicture) {
@@ -127,7 +125,7 @@ const UserProfilePage = () => {
           profileMessage: response.profileMessage,
           profileId: response.profileId,
           profilePicture:
-            'https://cuilcaghspot.s3.eu-west-1.amazonaws.com/userprofile.png',
+            "https://cuilcaghspot.s3.eu-west-1.amazonaws.com/userprofile.png",
         });
         setProfileMessage(response.profileMessage);
       }
@@ -135,21 +133,16 @@ const UserProfilePage = () => {
     fetchData();
   }, [id]);
 
-  
-
-  
-
   const updateUserDetails = () => {
     const updatedUser = {
       userId: tokenId,
       trustedUser: true,
     };
 
-    ApiClient.put('users/updateUserDetails', updatedUser, {
-      headers: {'Content-Type': 'application/json'},
+    ApiClient.put("users/updateUserDetails", updatedUser, {
+      headers: { "Content-Type": "application/json" },
     })
-      .then((response) => {
-      })
+      .then((response) => {})
       .catch((error) => console.log(error));
   };
 
@@ -159,8 +152,8 @@ const UserProfilePage = () => {
       userLevelId: 3,
     };
 
-    ApiClient.put('users/updateUserDetails', updatedUser, {
-      headers: {'Content-Type': 'application/json'},
+    ApiClient.put("users/updateUserDetails", updatedUser, {
+      headers: { "Content-Type": "application/json" },
     })
       .then()
       .catch((error) => console.log(error));
@@ -189,8 +182,7 @@ const UserProfilePage = () => {
           )}
         </Grid>
         <Grid item className="picture" md={3} sm={6}>
-          {profile && <img src={ profile?.profilePicture} />}
-
+          {profile && <img src={profile?.profilePicture} />}
         </Grid>
         <Grid className="upload-img">
           <AWSUpload pictureUrl={pictureUrl} setPictureUrl={setPictureUrl} />
@@ -201,7 +193,7 @@ const UserProfilePage = () => {
             {isAdmin && (
               <Button variant="contained" onClick={updateUserDetails}>
                 <VerifiedUserIcon className="icon-btns" />
-                Set as Trusted{' '}
+                Set as Trusted{" "}
               </Button>
             )}
           </div>
@@ -209,7 +201,7 @@ const UserProfilePage = () => {
             {isAdmin && (
               <Button variant="contained" onClick={updateUserAdmin}>
                 <SupervisorAccountIcon className="icon-btns" />
-                Set as Admin{' '}
+                Set as Admin{" "}
               </Button>
             )}
           </div>

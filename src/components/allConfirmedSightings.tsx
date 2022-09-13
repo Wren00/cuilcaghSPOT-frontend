@@ -2,6 +2,7 @@ import { ConfirmedSighting } from "../types/confirmedSighting.types";
 
 import {
   Avatar,
+  Input,
   List,
   ListItemAvatar,
   ListItemButton,
@@ -46,7 +47,7 @@ export const ConfirmedSightingList = () => {
         `confirmedsightings/getAllConfirmedSightings`
       );
       setSightings(response);
-      setPageData(response.slice(0, 9));
+      setPageData(response.slice(0, 10));
     };
     fetchData();
   }, []);
@@ -76,7 +77,7 @@ export const ConfirmedSightingList = () => {
               >
                 <Link
                   className="species-button"
-                  to={`./sightings/confirmedSightingPage/${sighting.sightingId}`}
+                  to={`/sightings/confirmedSightingpage/${sighting.sightingId}`}
                 >
                   <ListItemButton>
                     <ListItemAvatar>
