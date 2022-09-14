@@ -135,7 +135,7 @@ const UserProfilePage = () => {
 
   const updateUserDetails = () => {
     const updatedUser = {
-      userId: tokenId,
+      userId: parsedId,
       trustedUser: true,
     };
 
@@ -144,11 +144,12 @@ const UserProfilePage = () => {
     })
       .then((response) => {})
       .catch((error) => console.log(error));
+    console.log("Success");
   };
 
   const updateUserAdmin = () => {
     const updatedUser = {
-      userId: tokenId,
+      userId: parsedId,
       userLevelId: 3,
     };
 
@@ -156,6 +157,16 @@ const UserProfilePage = () => {
       headers: { "Content-Type": "application/json" },
     })
       .then()
+      .catch((error) => console.log(error));
+    console.log("Success");
+  };
+
+  const deleteUser = () => {
+    const id = parsedId;
+    ApiClient.put("users/deleteUserById", id, {
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {})
       .catch((error) => console.log(error));
   };
 
@@ -192,7 +203,10 @@ const UserProfilePage = () => {
           <div>
             {isAdmin && (
               <Button variant="contained" onClick={updateUserDetails}>
-                <VerifiedUserIcon className="icon-btns" />
+                <VerifiedUserIcon
+                  className="icon-btns"
+                  onClick={updateUserDetails}
+                />
                 Set as Trusted{" "}
               </Button>
             )}
@@ -200,7 +214,10 @@ const UserProfilePage = () => {
           <div>
             {isAdmin && (
               <Button variant="contained" onClick={updateUserAdmin}>
-                <SupervisorAccountIcon className="icon-btns" />
+                <SupervisorAccountIcon
+                  className="icon-btns"
+                  onClick={updateUserAdmin}
+                />
                 Set as Admin{" "}
               </Button>
             )}
@@ -208,7 +225,8 @@ const UserProfilePage = () => {
           <div>
             {isAdmin && (
               <Button variant="contained">
-                <DeleteIcon className="icon-btns" /> Delete User
+                <DeleteIcon className="icon-btns" onClick={deleteUser} /> Delete
+                User
               </Button>
             )}
           </div>

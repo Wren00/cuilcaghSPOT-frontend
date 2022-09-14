@@ -40,10 +40,6 @@ export const PostsList = () => {
     fetchData();
   }, [userId]);
 
-  if (user?.userLevelId === 3) {
-    isAdmin = true;
-  }
-
   if (user?.trustedUser === true) {
     trustedUser = true;
   }
@@ -78,8 +74,9 @@ export const PostsList = () => {
     <div>
       <div>
         {" "}
-        {(context?.userSession && context.userSession.accessToken && isAdmin) ||
-          (trustedUser && <button>Add Post</button>)}
+        {context?.userSession &&
+          context.userSession.accessToken &&
+          trustedUser && <button>Add Post</button>}
       </div>
       <Paper sx={{ width: "100%" }}>
         <Table className="list">

@@ -43,6 +43,7 @@ const PostById = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(id);
       const { data: response } = await ApiClient.get(`posts/getPostById/${id}`);
       setPost(response);
     };
