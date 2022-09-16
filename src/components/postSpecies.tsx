@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import "./../pages/css/post-species.css";
 import React, { useState } from "react";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { ApiClient } from "../utils";
 
 function PostSpecies() {
@@ -33,24 +33,60 @@ function PostSpecies() {
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
         >
-          <button className="button" onClick={() => setTaxonGroupId(1)}>
+          <Button
+            className="button"
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={() => setTaxonGroupId(1)}
+          >
             Amphibians
-          </button>
-          <button className="button" onClick={() => setTaxonGroupId(2)}>
+          </Button>
+          <Button
+            className="button"
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={() => setTaxonGroupId(2)}
+          >
             Birds
-          </button>
-          <button className="button" onClick={() => setTaxonGroupId(3)}>
+          </Button>
+          <Button
+            className="button"
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={() => setTaxonGroupId(3)}
+          >
             Mammals
-          </button>
-          <button className="button" onClick={() => setTaxonGroupId(4)}>
+          </Button>
+          <Button
+            className="button"
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={() => setTaxonGroupId(4)}
+          >
             Plants
-          </button>
-          <button className="button" onClick={() => setTaxonGroupId(5)}>
+          </Button>
+          <Button
+            className="button"
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={() => setTaxonGroupId(5)}
+          >
             Butterflies and Moths
-          </button>
-          <button className="button" onClick={() => setTaxonGroupId(6)}>
-            Other Insects and Arthropods
-          </button>
+          </Button>
+          <Button
+            className="button"
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={() => setTaxonGroupId(6)}
+          >
+            Other Arthropods
+          </Button>
         </Stack>
       </div>
       <div>

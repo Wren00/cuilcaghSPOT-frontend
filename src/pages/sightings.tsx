@@ -62,6 +62,13 @@ const Sightings = () => {
             </Link>
           </button>
         )}
+        {!context?.userSession && context?.userSession.accessToken && (
+          <button className="submit-sighting-btn">
+            <Link className="btn-link" to="./register">
+              Register to submit a sighting
+            </Link>
+          </button>
+        )}
       </div>
       <div className="featuredsighting">
         <SightingList />

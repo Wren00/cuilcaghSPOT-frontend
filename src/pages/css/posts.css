@@ -1,0 +1,23 @@
+.postTitle {
+    font-weight: bold;
+    font-style: italic;
+    padding: 2em;
+}
+
+.journal-post-title {
+    font-weight: bold;
+}
+
+.add-post-button {
+    padding: 2em;
+    color: white;
+}
+
+.post-list {
+    margin: 1em;
+}
+
+
+.user-post-container {
+    border-radius: 25px;
+}

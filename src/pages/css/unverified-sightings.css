@@ -1,9 +1,6 @@
 .post-sighting-map   {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width:70%;
-    padding: 2em;
+    /*width:70%;*/
+    /*padding: 2em;*/
 }
 
 .row-div {

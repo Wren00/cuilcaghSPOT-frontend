@@ -1,5 +1,5 @@
 import { UserPosts } from "../types/userPosts.types";
-import { Input, Table } from "@mui/material";
+import { Box, Button, Grid, Input, Table } from "@mui/material";
 import { Link } from "react-router-dom";
 import * as React from "react";
 import Paper from "@mui/material/Paper";
@@ -9,6 +9,7 @@ import { User } from "../types/users.types";
 import { ApiClient } from "../utils";
 import Auth from "./authorisation/context";
 import jwtDecode from "jwt-decode";
+import "../pages/css/posts.css";
 
 export const PostsList = () => {
   const [posts, setPosts] = useState<UserPosts[]>([]);
@@ -19,7 +20,6 @@ export const PostsList = () => {
   const [user, setUser] = React.useState<User>();
   const context = React.useContext(Auth.AuthContext);
 
-  let isAdmin: boolean = false;
   let userId: number = 0;
   let trustedUser: boolean = false;
 
@@ -71,55 +71,79 @@ export const PostsList = () => {
   }, []);
 
   return (
-    <div>
-      <div>
-        {" "}
-        {context?.userSession &&
-          context.userSession.accessToken &&
-          trustedUser && <button>Add Post</button>}
-      </div>
-      <Paper sx={{ width: "100%" }}>
-        <Table className="list">
-          <Input
-            type="text"
-            className="search"
-            placeholder="Search posts..."
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-          {pageData
-            .filter((value) => {
-              if (name === "") {
-                return value as UserPosts;
-              } else if (
-                value.postContent.toLowerCase().includes(name.toLowerCase()) ||
-                value.postTitle.toLowerCase().includes(name.toLowerCase())
-              ) {
-                return value as UserPosts;
-              }
-            })
-            .map((post, index) => (
-              <div key={`post-${index}`}>
-                <div className="postTitle">
-                  <Link className="post-button" to={`/posts/${post.postId}`}>
-                    {post.postTitle}
-                  </Link>
-                  <div className="post-content">{post.postContent}</div>
-                </div>
+    <div className="post-list">
+      <Grid>
+        <Grid container>
+          <Grid item xs={12} sm={6}>
+            <h1 className="journal-post-title">JOURNAL POSTS </h1>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Box display="flex" justifyContent="flex-end">
+              <div className="add-post-button">
+                {" "}
+                {context?.userSession &&
+                  context.userSession.accessToken &&
+                  trustedUser && (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      sx={{ color: "white" }}
+                    >
+                      Add Post
+                    </Button>
+                  )}
               </div>
-            ))}
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[10, 25]}
-          component="div"
-          count={posts.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleNewPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Paper sx={{ width: "100%" }}>
+            <Input
+              type="text"
+              className="search"
+              placeholder="Search posts..."
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+            {pageData
+              .filter((value) => {
+                if (name === "") {
+                  return value as UserPosts;
+                } else if (
+                  value.postContent
+                    .toLowerCase()
+                    .includes(name.toLowerCase()) ||
+                  value.postTitle.toLowerCase().includes(name.toLowerCase()) ||
+                  value.authorName.toLowerCase().includes(name.toLowerCase())
+                ) {
+                  return value as UserPosts;
+                }
+              })
+              .map((post, index) => (
+                <div key={`post-${index}`}>
+                  <div className="user-post-container">
+                    <Link className="post-button" to={`/posts/${post.postId}`}>
+                      {post.postTitle}
+                    </Link>
+                    <div className="post-content">{post.postContent}</div>
+                  </div>
+                  <div className="user">Written By: {post.authorName}</div>
+                </div>
+              ))}
+            <TablePagination
+              rowsPerPageOptions={[10, 25]}
+              component="div"
+              count={posts.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleNewPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 };
