@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { CreateUnverifiedSighting } from "../types/sightings.types";
 import {
   Avatar,
+  Container,
   Input,
   List,
   ListItemAvatar,
@@ -90,28 +91,37 @@ function PostSighting(this: any) {
       });
   };
 
-  const getByGroupId = (taxonGroupId: number) => {
-    ApiClient.get("organisms/getOrganismByTaxonGroupId/${taxonGroupId")
-      .then((response) => {
-        setOrganismSearch(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error.data);
-      });
+  const getByGroupId = async (taxonGroupId: number) => {
+    if (taxonGroupId === 0) {
+      const { data: response } = await ApiClient.get(
+        `organisms/getAllOrganisms`
+      );
+      setOrganismSearch(response);
+    } else {
+      ApiClient.get(`organisms/getOrganismByTaxonGroupId/${taxonGroupId}`)
+        .then((response) => {
+          setOrganismSearch(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    }
   };
 
   return (
     <div className="post-sighting-page">
       Where did you see it?
-      <div className="post-sighting-map">
-        <InteractiveReactMap
-          lat={lat}
-          setLat={setLat}
-          long={long}
-          setLong={setLong}
-        />
-      </div>
+      <Container>
+        <div className="post-sighting-map">
+          <InteractiveReactMap
+            lat={lat}
+            setLat={setLat}
+            long={long}
+            setLong={setLong}
+          />
+        </div>
+      </Container>
       <div className="picture-upload"></div>
       <div className="row-div"></div>
       <div></div>
@@ -142,6 +152,9 @@ function PostSighting(this: any) {
             </button>
             <button className="button" onClick={() => getByGroupId(6)}>
               Other Insects and Arthropods
+            </button>
+            <button className="button" onClick={() => getByGroupId(0)}>
+              Check All
             </button>
           </Stack>
         </div>
@@ -200,10 +213,7 @@ function PostSighting(this: any) {
             <label htmlFor="pictureUrl">Upload your photo! (JPG/PNG..)</label>
           </div>
           <div>
-            <AWSUpload
-              pictureUrl={pictureUrl}
-              setPictureUrl={setPictureUrl}
-            />
+            <AWSUpload pictureUrl={pictureUrl} setPictureUrl={setPictureUrl} />
           </div>
           <div className="date-picker">
             <label htmlFor="date"> When did you see it?</label>
