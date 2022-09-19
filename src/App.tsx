@@ -55,7 +55,7 @@ function App() {
             path="/sightings/allConfirmedSightings"
             element={<AllConfirmedSightings />}
           />
-          <Route path="/how%20To%20Use" element={<Use />} />
+          <Route path="/guide" element={<Use />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />

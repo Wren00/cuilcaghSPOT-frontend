@@ -19,14 +19,7 @@ import { User } from "../types/users.types";
 import { useEffect, useState } from "react";
 import { ApiClient } from "../utils";
 
-const pages = [
-  "Sightings",
-  "Species",
-  "Posts",
-  "How To Use",
-  "About",
-  "Contact",
-];
+const pages = ["Sightings", "Species", "Posts", "Guide", "About", "Contact"];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>();

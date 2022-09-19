@@ -1,10 +1,12 @@
 import React, { Dispatch, SetStateAction } from "react";
-import Button from "@mui/material";
-import Dialog from "@mui/material";
-import DialogActions from "@mui/material";
-import DialogContent from "@mui/material";
-import DialogContentText from "@mui/material";
-import DialogTitle from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 
 interface AlertProps {
   prompt: string;
@@ -29,14 +31,13 @@ const AlertDialog: React.FC<AlertProps> = ({ prompt, open, setOpen }) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}></Button>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{{ message }}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{message}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description"></DialogContentText>
         </DialogContent>
