@@ -21,6 +21,7 @@ import UserPosts from "./pages/userPosts";
 import AllUnverifiedSightings from "./pages/allUnverifiedSightings";
 import AllConfirmedSightings from "./pages/allConfirmedSightings";
 import PostById from "./components/getPostById";
+import AddPost from "./pages/addPost";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
           <Route path="/profile/:id" element={<UserProfile />} />
           <Route path="/posts" element={<UserPosts />} />
           <Route path="/posts/:id" element={<PostById />} />
+          <Route path="/posts/create" element={<AddPost />} />
           <Route path="/species/post" element={<SpeciesDataForm />} />
         </Routes>
         <link
