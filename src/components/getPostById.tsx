@@ -7,6 +7,7 @@ import * as React from "react";
 import Auth from "../components/authorisation/context";
 import jwtDecode from "jwt-decode";
 import { ApiClient } from "../utils";
+import AlertDialog from "./popups/confirmAction";
 
 const PostById = () => {
   let { id } = useParams();
@@ -14,6 +15,7 @@ const PostById = () => {
   let isAdmin: boolean = false;
   const [user, setUser] = useState<User>();
   const [post, setPost] = useState<UserPosts>();
+  const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const context = React.useContext(Auth.AuthContext);
@@ -21,6 +23,10 @@ const PostById = () => {
   let userId: number = 0;
 
   const token = context?.userSession.accessToken;
+
+  if (id) {
+    postId = parseInt(id);
+  }
 
   if (token) {
     const decodedToken = jwtDecode<any>(token);
@@ -76,6 +82,7 @@ const PostById = () => {
           <button onClick={deletePost}>Delete Post</button>
         )}
       </div>
+      {/*<AlertDialog prompt="delete" open={open} setOpen={setOpen} />*/}
     </div>
   );
 };
