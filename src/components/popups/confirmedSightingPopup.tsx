@@ -1,13 +1,11 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertColor, AlertProps } from "@mui/material/Alert";
 
 interface PopUpProps {
   message: string;
   open: boolean;
-  //Add type for setOpen as a prop, Dispatch as SetStateAction are just the types for the set state from a useState
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -23,13 +21,9 @@ const ConfirmedSightingPopUp: React.FC<PopUpProps> = ({
   open,
   setOpen,
 }) => {
-  //Create a state to handle alert severity aka the background colour of the alert snackbar
-  //The type 'AlertColor' is a material UI thing, basically it can be one of four values: "success" | "info" | "warning" | "error"
   const [alertSeverity, setAlertSeverity] = useState<AlertColor>("info");
 
   const handleClick = () => {
-    //Use the passed down setOpen instead, and make it to be the opposite of whatever it previously was,
-    //e.g. if it was false then make it the opposite of false aka true
     setOpen((prevOpen) => !prevOpen);
   };
 

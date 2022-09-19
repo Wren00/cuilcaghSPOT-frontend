@@ -90,7 +90,12 @@ export const PostsList = () => {
                       size="large"
                       sx={{ color: "white" }}
                     >
-                      Add Post
+                      <Link
+                        to="../posts/create"
+                        style={{ textDecoration: "none", color: "white" }}
+                      >
+                        Add Post
+                      </Link>
                     </Button>
                   )}
               </div>
