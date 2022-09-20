@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import Auth from "./authorisation/context";
 import jwtDecode from "jwt-decode";
 import { ApiClient } from "../utils";
@@ -70,21 +70,17 @@ function PostUserPost() {
             <Grid item>What do you want to talk about?</Grid>
             <Grid item xs={12} sm={12}>
               <div className="add-post-title">Title</div>
-              <input
-                {...register("postTitle")}
-                placeholder="Title"
-                type="text"
-              />
+              <TextField fullWidth id="input-title" variant="standard" />
             </Grid>
-            <Grid item>
+            <Grid item xs={12} sm={12} lg={12}>
               <div className="add-post-content">Post Content</div>
-              <input
-                {...register("postContent")}
-                placeholder="Content"
-                type="text"
-              />
+              <TextField fullWidth id="input-content" variant="standard" />
             </Grid>
-            <Button type="submit" variant="contained">
+            <Button
+              type="submit"
+              variant="contained"
+              className="submit-post-btn"
+            >
               Write Post
             </Button>
           </form>
