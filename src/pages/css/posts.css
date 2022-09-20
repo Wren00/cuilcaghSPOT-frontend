@@ -4,6 +4,27 @@
     padding: 2em;
 }
 
+.post-form-body {
+    background-color: white;
+    padding: 5em;
+    margin: 2em;
+    border-radius: 25px;
+}
+
+.input-title {
+    width: auto;
+}
+
+.input-content {
+    width: auto;
+    height: 300px;
+    overflow: scroll;
+}
+
+.submit-post-btn {
+    padding-top: 2em;
+}
+
 .journal-post-title {
     font-weight: bold;
 }

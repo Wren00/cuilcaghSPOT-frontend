@@ -7,7 +7,6 @@ import MuiAlert, { AlertColor, AlertProps } from "@mui/material/Alert";
 interface PopUpProps {
   message: string;
   open: boolean;
-  //Add type for setOpen as a prop, Dispatch as SetStateAction are just the types for the set state from a useState
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
