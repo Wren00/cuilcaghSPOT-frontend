@@ -22,6 +22,7 @@ import AllUnverifiedSightings from "./pages/allUnverifiedSightings";
 import AllConfirmedSightings from "./pages/allConfirmedSightings";
 import PostById from "./components/getPostById";
 import AddPost from "./pages/addPost";
+import Settings from "./pages/settings";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
           <Route path="/posts/:id" element={<PostById />} />
           <Route path="/posts/create" element={<AddPost />} />
           <Route path="/species/post" element={<SpeciesDataForm />} />
+          <Route path="/settings/:id" element={<Settings />} />
         </Routes>
         <link
           href="https://fonts.googleapis.com/css?family=Quicksand"

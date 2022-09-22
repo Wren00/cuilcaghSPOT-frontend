@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AWS from "aws-sdk";
 import { Box, Button, Typography } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -7,23 +6,14 @@ import LinearProgress, {
   LinearProgressProps,
 } from "@mui/material/LinearProgress";
 
-const S3_BUCKET = "cuilcaghspot";
-const REGION = "eu-west-1";
-
 interface ImageUploadProps {
   pictureUrl: string;
   setPictureUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
-AWS.config.update({
-  accessKeyId: "AKIAYDRMF3FLURNTBJ5F",
-  secretAccessKey: "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",
-});
-
-const myBucket = new AWS.S3({
-  params: { BUCKET: S3_BUCKET },
-  region: REGION,
-});
+interface ResponseType extends Response {
+  signedUrl: string;
+}
 
 const LinearProgressWithLabel = (
   props: LinearProgressProps & { value: number }
@@ -59,25 +49,33 @@ const AWSUpload: React.FC<ImageUploadProps> = ({
     hiddenFileInput?.current?.click();
   };
 
-  const uploadFile = (file: any) => {
-    const params = {
-      Body: file,
-      Bucket: S3_BUCKET,
-      Key: file.name,
+  const uploadFile = (file: File) => {
+    const reqBody = {
+      fileName: file.name,
+      fileType: file.type,
+    };
+    const requestObject: RequestInit = {
+      method: "POST",
+      body: JSON.stringify(reqBody),
     };
 
-    myBucket
-      .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        setProgress(Math.round((evt.loaded / evt.total) * 100));
-      })
-      .promise()
-      .then((resp) => {
-        setPictureUrl(
-          `https://cuilcaghspot.s3.eu-west-1.amazonaws.com/${file.name}`
-        );
-      });
+    // @ts-ignore
+    fetch(
+      "http://localhost:5001/api/images/generatePreSignedUrl",
+      requestObject
+    ).then(
+      // @ts-ignore
+      (res: ResponseType) => {
+        fetch(res.signedUrl, {
+          method: "PUT",
+          body: file,
+        }).then((res) => {
+          console.log(res.body);
+        });
+      }
+    );
   };
+
   return (
     <div>
       <LinearProgressWithLabel value={progress} />
@@ -91,9 +89,11 @@ const AWSUpload: React.FC<ImageUploadProps> = ({
         <AddPhotoAlternateIcon />
         Choose Photo
       </Button>
-      <Button onClick={() => uploadFile(selectedFile)}>
-        <UploadIcon /> Upload
-      </Button>
+      {selectedFile && (
+        <Button onClick={() => uploadFile(selectedFile)}>
+          <UploadIcon /> Upload
+        </Button>
+      )}
     </div>
   );
 };
