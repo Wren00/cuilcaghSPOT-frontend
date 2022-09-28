@@ -19,6 +19,7 @@ import "./css/user-profile.css";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FileUpload from "../components/fileUpload";
 
 const UserProfilePage = () => {
   let { id } = useParams();
@@ -79,6 +80,7 @@ const UserProfilePage = () => {
 
   const saveChanges = () => {
     if (profile && profileMessage) {
+      console.log(pictureUrl);
       const updatedUserProfile: UserProfile = {
         profileId: parsedId,
         profileMessage: profileMessage,
@@ -196,7 +198,7 @@ const UserProfilePage = () => {
           {profile && <img src={profile?.profilePicture} />}
         </Grid>
         <Grid className="upload-img">
-          <AWSUpload pictureUrl={pictureUrl} setPictureUrl={setPictureUrl} />
+          <FileUpload pictureUrl={pictureUrl} setPictureUrl={setPictureUrl} />
         </Grid>
 
         <Grid item xs={10} className="user-profiles">
