@@ -1,14 +1,24 @@
 import { ApiClient } from "../utils";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Button } from "@mui/material";
+import { useParams } from "react-router-dom";
+
+//UPLOAD FUNCTION FOR PROFILE PICTURES.
 
 interface ImageProps {
   pictureUrl: string;
   setPictureUrl: Dispatch<SetStateAction<string>>;
 }
 
-const FileUpload: React.FC<ImageProps> = ({ pictureUrl, setPictureUrl }) => {
+const PictureUpload: React.FC<ImageProps> = ({ pictureUrl, setPictureUrl }) => {
   const [status, setStatus] = useState<string>();
+  let { profileId } = useParams();
+  let parsedId: number;
+
+  if (profileId) {
+    parsedId = parseInt(profileId);
+  }
 
   const {
     register,
@@ -34,7 +44,6 @@ const FileUpload: React.FC<ImageProps> = ({ pictureUrl, setPictureUrl }) => {
       .then((response) => {
         setStatus("Image uploaded.");
         setPictureUrl(response.data);
-        console.log(status);
       })
       .catch((error) => {
         setStatus("Error, please try again.");
@@ -42,8 +51,12 @@ const FileUpload: React.FC<ImageProps> = ({ pictureUrl, setPictureUrl }) => {
       });
   };
 
-  const updateProfilePicture = () => {
-    ApiClient.put("users/updateUserProfile", pictureUrl, {
+  const updatePicture = () => {
+    let profileBody = {
+      parsedId,
+      pictureUrl,
+    };
+    ApiClient.put("users/updateUserProfile", profileBody, {
       headers: { "Content-Type": "application/json" },
     })
       .then()
@@ -54,10 +67,12 @@ const FileUpload: React.FC<ImageProps> = ({ pictureUrl, setPictureUrl }) => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <input type="file" {...register("file")} />
-        <input type="submit" onClick={updateProfilePicture} />
+        <Button type="submit" onClick={updatePicture}>
+          Upload picture
+        </Button>
       </form>
     </div>
   );
 };
 
-export default FileUpload;
+export default PictureUpload;

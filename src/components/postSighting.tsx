@@ -22,6 +22,7 @@ import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { ApiClient } from "../utils";
 import { AWSUpload } from "./awsUpload";
+import { useNavigate } from "react-router-dom";
 
 function PostSighting(this: any) {
   const {
@@ -43,6 +44,7 @@ function PostSighting(this: any) {
 
   const context = React.useContext(Auth.AuthContext);
   const token = context?.userSession.accessToken;
+  const navigate = useNavigate();
 
   let tokenId: number = 0;
 
@@ -68,6 +70,7 @@ function PostSighting(this: any) {
   const createUnverifiedSighting = (data: CreateUnverifiedSighting) => {
     console.log(typeof data);
     console.log({ data });
+    console.log(pictureUrl);
     data.organismId = organismId;
     data.userId = tokenId;
     data.pictureUrl = pictureUrl;
@@ -83,7 +86,10 @@ function PostSighting(this: any) {
     })
       .then((response) => {
         setStatus("Sighting posted, thanks Spotter!");
-        console.log(response.data);
+        console.log({ status });
+        setTimeout(() => {
+          navigate("/Sightings/allUnverifiedSightings");
+        }, 2000);
       })
       .catch((error) => {
         setStatus("Could not post sighting, try again.");
